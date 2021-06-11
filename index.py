@@ -1,57 +1,24 @@
 from os import getenv
-from dotenv import load_dotenv
-import discord
-import events
-import database as db
+import dotenv
 
-# Load .env variables
-load_dotenv("./.env")
-
-# True: deployed. False: debug/local
-on_cloud = bool(int(getenv("ON_CLOUD")))
-
-# Import replit if on cloud
-if on_cloud:
-    from replit import db
-
-# Initialize momo
-momo = discord.Client()
+from lib.db.db import database as db
+from lib.bot.bot import momo
 
 
 # Main function
-def main() -> None:
-    # Load database
-    load_db(on_cloud)
+def main():
+    print("-------- PyMomo Alpha --------\n")
 
-    # Connect to Discord and run bot
+    # Load .env variables
+    dotenv.load_dotenv("./.env")
+
+    # Load database
+    setattr(db, "on_cloud", bool(int(getenv("ON_CLOUD"))))
+    db.load()
+
+    # Run momo
     print("Connecting to Discord... ", end="")
     momo.run(getenv("PYMOMO_TOKEN"))
-
-
-# Event handlers
-@momo.event
-async def on_ready():
-    print("Success!")
-
-@momo.event
-async def on_message(message):
-    await events.on_message(message)
-
-@momo.event
-async def on_reaction_add(reaction, user):
-    print(f"Reaction from {user}: {reaction}")
-
-
-def load_db(on_cloud: bool):
-    if on_cloud:
-        # TODO: Load replit database
-        pass
-    else:
-        # TODO: Load local database
-        pass
-
-    return NotImplemented
-
 
 
 # Execute
