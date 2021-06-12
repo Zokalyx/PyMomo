@@ -1,4 +1,5 @@
 from discord.ext.commands import Cog, command, group, is_owner
+from lib.classes import User
 
 
 class MomoBot(Cog):
@@ -9,6 +10,7 @@ class MomoBot(Cog):
     @command()
     async def save(self, ctx):
         msg = await ctx.send("Guardando datos... ")
+        self.bot.pack_data()
         self.bot.db.save()
         await msg.edit(content="Guardando datos... ✅")
 
@@ -21,7 +23,7 @@ class MomoBot(Cog):
 
 
     @command()
-    async def test(self, ctx, name):
+    async def test(self, ctx, *, name):
         await ctx.send(f"Hi, {name}")
 
 
