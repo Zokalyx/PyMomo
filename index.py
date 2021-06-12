@@ -83,7 +83,7 @@ custom_help_command = HelpCommand(
 )
 
    
-
+asd
 
 # Execute
 if __name__ == "__main__":
