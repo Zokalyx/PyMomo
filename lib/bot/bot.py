@@ -11,9 +11,14 @@ from discord.ext import commands
 
 class Momo(commands.Bot):
     
-    def __init__(self, *args, data, **kwargs):
-        self.data = data
+    def __init__(self, *args, database, **kwargs):
+        self.db = database
         super().__init__(*args, **kwargs)
+
+
+    def add_cogs(self, cogs):
+        for cog in cogs:
+            self.add_cog(cog(self))
 
 
     def run(self, *args, **kwargs):
@@ -22,7 +27,7 @@ class Momo(commands.Bot):
 
 
     async def on_ready(self):
-        await self.get_channel(self.data["config"]["default-channel"])\
+        await self.get_channel(self.db.data["config"]["default-channel"])\
             .send("Online")
         print("Done!")
 
@@ -30,5 +35,5 @@ class Momo(commands.Bot):
     async def on_message(self, message):
         if not message.author.bot:
             await self.process_commands(message)
-            await self.close()
+
 

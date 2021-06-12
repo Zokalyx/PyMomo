@@ -17,7 +17,7 @@ class Database:
             pass
         else:
             with open("./data/db.json", "r", encoding="utf-8") as database:
-                self.content = json.loads(database.read())
+                self.data = json.loads(database.read())
         print("Done!")
 
 
@@ -27,5 +27,5 @@ class Database:
             pass
         else:
             with open("./data/db.json", "w", encoding="utf-8") as database:
-                database.write(json.dumps(self.content))
+                database.write(json.dumps(self.data))
         print("Done!")
