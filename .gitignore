@@ -1,6 +1,6 @@
 .env
 .db
-data
+data/db.json
 test.py
 __pycache__
 __pycache__/events.cpython-39.pyc
