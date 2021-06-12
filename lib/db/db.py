@@ -14,7 +14,7 @@ class Database:
     def load(self):
         print("Loading from database... ", end="")
         if self.on_cloud:
-            pass
+            self.data = json.loads(replitdb["data"])
         else:
             with open("./data/db.json", "r", encoding="utf-8") as database:
                 self.data = json.loads(database.read())
@@ -24,7 +24,7 @@ class Database:
     def save(self):
         print("Saving to database... ", end="")
         if self.on_cloud:
-            pass
+            replitdb["data"] = json.dumps(self.data)
         else:
             with open("./data/db.json", "w", encoding="utf-8") as database:
                 database.write(json.dumps(self.data))
