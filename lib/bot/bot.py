@@ -54,7 +54,7 @@ class Momo(commands.Bot):
 
     async def on_ready(self):
         await self.get_channel(self.db.data["config"]["default-channel"])\
-            .send("Online")
+            .send("✅ En línea")
         print("Done!")
 
 
@@ -64,4 +64,10 @@ class Momo(commands.Bot):
             if author.id not in self.users:
                 self.users[author.id] = User(user=author)
             await self.process_commands(message)
+
+    
+    async def on_command_error(self, ctx, exception):
+        cmd = ctx.command
+        await ctx.send(f"Uso correcto: `{cmd.name} {cmd.usage}`\n" +
+            str(exception))
 

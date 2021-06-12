@@ -17,17 +17,25 @@ class MomoBot(Cog):
 
     @command()
     async def exit(self, ctx):
+        msg = await ctx.send("Guardando datos y apagando...")
         self.bot.db.save()
+        await msg.edit(content="Guardando datos y apagando... ✅")
         print("Shutting down...")
         await self.bot.close()
 
 
     @command()
+    async def ping(self, ctx):
+        ping = round(1000*self.bot.latency)
+        await ctx.send(f"Tengo {ping} ms de latencia")
+
+
+    @command(usage="<nombre>")
     async def test(self, ctx, *, name):
         await ctx.send(f"Hi, {name}")
 
 
-    @command()
+    @command(usage="<código>")
     @is_owner()
     async def debug(self, ctx, *args):
         # Async exec in python
