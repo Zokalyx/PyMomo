@@ -6,14 +6,16 @@ def custom_command_prefix(bot, message):
     try:
         return config["prefixes"][str(message.guild.id)]
     except KeyError:
-        return config["default-prefixes"]
+        return config["default-prefix"]
 
 
 init_dict = {
     "owner_id": 284696251566391296,
     "command_prefix": custom_command_prefix,
+    "help_command": None,
     "activity": ds.Activity(
             name="sugerencias",
             type=ds.ActivityType.listening
         ),
+    "case_insensitive": True,
 }

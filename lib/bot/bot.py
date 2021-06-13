@@ -23,7 +23,11 @@ class Momo(commands.Bot):
 
     @property
     def users(self):
-        return self._users
+        return self._users  
+
+
+    def add_server(self, server):
+        self.server = server
 
     
     def get_user_objects(self):
@@ -55,7 +59,6 @@ class Momo(commands.Bot):
     async def on_ready(self):
         await self.get_channel(self.db.data["config"]["default-channel"])\
             .send("✅ En línea")
-        print("Done!")
 
 
     async def on_message(self, message):
@@ -68,6 +71,9 @@ class Momo(commands.Bot):
     
     async def on_command_error(self, ctx, exception):
         cmd = ctx.command
-        await ctx.send(f"Uso correcto: `{cmd.name} {cmd.usage}`\n" +
-            str(exception))
+        if cmd is None:
+            await ctx.send("Comando no reconocido")
+        else:
+            await ctx.send(f"Uso correcto: `{cmd.name} {cmd.usage}`\n" +
+                str(exception))
 

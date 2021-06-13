@@ -1,6 +1,6 @@
 import discord as ds
 
-class User():
+class User:
 
     def __init__(self, user=None, user_dict=None):
         if user_dict is None:
