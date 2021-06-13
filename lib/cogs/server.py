@@ -4,7 +4,7 @@ import aiohttp_jinja2
 import jinja2
 import server
 import json
-from lib.web import env
+from lib.web import env, add_static
 
 
 class MomoServer(Cog):
@@ -19,7 +19,11 @@ class MomoServer(Cog):
             port=8000,
             host="0.0.0.0"
         )
-        env.globals["app"] = self.server
+        add_static(self)
+        if self.bot.db.on_cloud:
+            env.globals["SP"] = "https://pymomo.zokalyx.repl.co/"
+        else:
+            env.globals["SP"] = "http://localhost:8000/"
         self.bot.loop.create_task(self._start_server())
 
 
@@ -33,9 +37,20 @@ class MomoServer(Cog):
     async def home(self, request):
         self.bot.pack_data()
         return web.Response(
-            text=env.get_template("test.html").render(name="Fran"),
+            body=env.get_template("test.html").render(name="Fran"),
             content_type="html"
         )
+
+    """
+    @server.add_route(path="/images/momo", method="GET", cog="MomoServer")
+    async def static_momo(self, request):
+        with open("./lib/web/images/momo.png", "rb") as m:
+            img = m.read()
+        return web.Response(
+            body=img,
+            content_type="image/png"
+        )
+    """
 
     
     @command()

@@ -1,1 +1,1 @@
-from lib.web.jinja import env
+from lib.web.jinja import env, add_static
