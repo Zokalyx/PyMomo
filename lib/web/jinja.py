@@ -34,4 +34,3 @@ def add_static(cog):
                 return Response(body=body, content_type=content_type)
             _ROUTES.append(RouteDef(f"/{folder}/" + fil, "GET", fuck, cog))
             setattr(cog, folder + "_" + fil.replace(".", "_"), fuck)
-
