@@ -1,7 +1,10 @@
 from discord.ext.commands import Cog, command
 from aiohttp import web
+import aiohttp_jinja2
+import jinja2
 import server
 import json
+from lib.web import env
 
 
 class MomoServer(Cog):
@@ -16,6 +19,7 @@ class MomoServer(Cog):
             port=8000,
             host="0.0.0.0"
         )
+        env.globals["app"] = self.server
         self.bot.loop.create_task(self._start_server())
 
 
@@ -28,9 +32,9 @@ class MomoServer(Cog):
     @server.add_route(path="/", method="GET", cog="MomoServer")
     async def home(self, request):
         self.bot.pack_data()
-        return web.json_response(
-            data=self.bot.db.data,
-            status=200
+        return web.Response(
+            text=env.get_template("test.html").render(name="Fran"),
+            content_type="html"
         )
 
     
