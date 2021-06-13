@@ -12,7 +12,6 @@ class MomoInfo(Cog):
     def cog_of(self, word):
         cogs = self.bot.cogs
         for cog in cogs:
-            print(cogs[cog])
             if word in cogs[cog].aliases:
                 return cogs[cog]
         return None

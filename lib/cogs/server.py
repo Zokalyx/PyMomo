@@ -9,7 +9,7 @@ class MomoServer(Cog):
 
     def __init__(self, bot):
         self.name = "web"
-        self.aliases = ["server"]
+        self.aliases = ["web", "server"]
         self.bot = bot
         self.server = server.HTTPServer(
             bot=self.bot,
@@ -38,5 +38,6 @@ class MomoServer(Cog):
     async def link(self, ctx):
         """Muestra el link de la página web de Momo"""
         if self.bot.db.on_cloud:
-            await ctx.send("https://")
-
+            await ctx.send("https://pymomo.zokalyx.repl.co")
+        else:
+            await ctx.send("http://localhost:8000")
