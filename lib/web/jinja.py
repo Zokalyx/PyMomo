@@ -8,6 +8,14 @@ env = Environment(
     autoescape=select_autoescape()
 )
 
+
+def set_env(on_cloud):
+    if on_cloud:
+        env.globals["SP"] = "https://pymomo.zokalyx.repl.co/"
+    else:
+        env.globals["SP"] = "http://localhost:8000/"
+
+
 def add_static(cog):
     for folder in ["images", "scripts", "styles"]:
         folder_path = "./lib/web/" + folder + "/"
@@ -26,3 +34,4 @@ def add_static(cog):
                 return Response(body=body, content_type=content_type)
             _ROUTES.append(RouteDef(f"/{folder}/" + fil, "GET", fuck, cog))
             setattr(cog, folder + "_" + fil.replace(".", "_"), fuck)
+
