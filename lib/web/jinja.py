@@ -16,6 +16,8 @@ def set_env(on_cloud):
         env.globals["SP"] = "http://localhost:8000/"
 
 
+env.filters["pluralize"] = lambda x: "" if x == 1 else "s"
+
 """
 def add_static(cog):
     for folder in ["images", "scripts", "styles", "fonts"]:

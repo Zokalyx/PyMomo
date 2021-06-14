@@ -19,6 +19,16 @@ class MomoBot(Cog):
         self.bot.db.save()
         await msg.edit(content="Guardando datos... ✅")
 
+    
+    @command()
+    @is_owner()
+    async def load(self, ctx):
+        """carga todos los datos"""
+        msg = await ctx.send("Cargando datos... ")
+        self.bot.db.load()
+        self.bot.unpack_data()
+        await msg.edit(content="Cargando datos... ✅")
+
 
     @command()
     async def exit(self, ctx):

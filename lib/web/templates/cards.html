@@ -6,44 +6,35 @@
         <link rel="shortcut icon" href="../images/momo.ico" type="image/x-icon">
         <link rel="stylesheet" href="../styles/common.css" type="text/css">
         <title>
-            Packs
+            {{ pack }}
         </title>
     </head>
 
 
     <body>
         <header>
-            <a id="logo" href="/">Momo</a>
+            <a id="logo" href="../">Momo</a>
         </header>
 
         <main>
             <div class="title-row">
-                <a href="../"><img src="../images/back.png"></a> 
+                <a href={{ "./" if pack != "Todas las cartas" else "../packs/" }}>
+                    <img src="../images/back.png">
+                </a>
                 <span class="title">
-                    Elegí un pack para visualizar
+                    Pack {{ pack }}
                 </span>
                     <img src="../images/back.png" class="no-display">
             </div>
 
             <div class="main-container">
-                <a href="/cards/" class="element">
+                {% for card in cards|sort %}
+                <a href="/packs/{{ pack }}/{{ loop.index }}" class="element">
                     <span class="element-title">
-                        Todas las<br>cartas
-                    </span>
-                <!--<img class="front-page-image" src="../images/cards.png">
-                <p class="front-page-paragraph">
-                    Explorá cartas mediante el uso de filtros
-                </p>-->
-                </a>
-        
-
-                {% for pack in packs|sort %}
-                <a href="./{{ pack }}" class="element">
-                    <span class="element-title">
-                        {{ pack }}
+                        {{ loop.index }}
                     </span>
                     <p class="element-paragraph">
-                        {{ packs[pack]|length }} carta{{ packs[pack]|length|pluralize }}
+                        asd
                     </p>
                 </a>
                 {% endfor %}

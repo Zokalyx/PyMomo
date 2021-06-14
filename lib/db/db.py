@@ -24,8 +24,8 @@ class Database:
     def save(self):
         print("Saving to database... ", end="")
         if self.on_cloud:
-            replitdb["data"] = json.dumps(self.data)
+            replitdb["data"] = json.dumps(self.data, indent=4, sort_keys=True)
         else:
             with open("./data/db.json", "w", encoding="utf-8") as database:
-                database.write(json.dumps(self.data))
+                database.write(json.dumps(self.data, indent=4, sort_keys=True))
         print("Done!")

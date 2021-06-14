@@ -34,15 +34,35 @@ class MomoServer(Cog):
             content_type="html"
         )
 
-    
-    @server.add_route(path="/packs/", method="GET", cog="MomoServer")
+
+    @server.add_route(path="/packs/{pack}", method="GET", cog="MomoServer")
     async def home(self, request):
+        self.bot.pack_data()
+        pack = request.match_info["pack"]
         return web.Response(
-            body=env.get_template("packs.html").render(),
+            body=env.get_template("cards.html").render(cards=self.bot.packs[pack], pack=pack),
+            content_type="html"
+        )
+    
+
+    @server.add_route(path="/cards/", method="GET", cog="MomoServer")
+    async def home(self, request):
+        self.bot.pack_data()
+        return web.Response(
+            body=env.get_template("all.html").render(cards=self.bot.get_all_cards(), pack="Todas las cartas"),
             content_type="html"
         )
 
-    
+
+    @server.add_route(path="/packs/", method="GET", cog="MomoServer")
+    async def home(self, request):
+        self.bot.pack_data()
+        return web.Response(
+            body=env.get_template("packs.html").render(packs=self.bot.packs),
+            content_type="html"
+        )
+
+
     @server.add_route(path="/images/{file}", method="GET", cog="MomoServer")
     async def home(self, request):
         filename = request.match_info["file"]

@@ -5,6 +5,8 @@ import asyncio
 if platform.system() == 'Windows':
 	asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
+import functools
+
 # ----------------------------------------------------------------------------
 
 from discord.ext import commands
@@ -14,10 +16,7 @@ class Momo(commands.Bot):
     
     def __init__(self, *args, database, **kwargs):
         self.db = database
-        self.config = 123
-        self.config = self.db.data["config"]
-        self.cards = self.db.data["cards"]
-        self._users = self.get_user_objects()
+        self.unpack_data()
         super().__init__(*args, **kwargs)
 
 
@@ -40,10 +39,20 @@ class Momo(commands.Bot):
         return { str(d_id): user_objects[d_id].get_dict() for d_id in user_objects }
 
 
+    def get_all_cards(self):
+        return functools.reduce(lambda x,y: x+y, self.packs.values(), [])
+
+
     def pack_data(self):
         self.db.data["config"] = self.config 
         self.db.data["users"] = self.get_user_dicts()
-        self.db.data["cards"] = self.cards 
+        self.db.data["packs"] = self.packs 
+
+
+    def unpack_data(self):
+        self.config = self.db.data["config"]
+        self._users = self.get_user_objects()
+        self.packs = self.db.data["packs"]
 
 
     def add_cogs(self, cogs):
