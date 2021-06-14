@@ -51,8 +51,8 @@ class MomoBot(Cog):
     async def prefix(self, ctx, prefix):
         """cambia el prefijo de los comandos"""
         cfg = self.bot.config
-        cfg['prefixes'][str(ctx.guild.id)] = prfx
-        await ctx.send(f"El prefijo para comandos ahora es `{prfx}`")
+        cfg['prefixes'][str(ctx.guild.id)] = prefix
+        await ctx.send(f"El prefijo para comandos ahora es `{prefix}`")
 
 
     @command(usage="<nombre>")

@@ -18,20 +18,20 @@
 
         <main>
             <div class="title-row">
-                <a href="../packs">
+                <a href="../packs/">
                     <img src="../images/back.png">
                 </a>
                 <span class="title">
-                    "Todas las cartas"
+                    Todas las cartas
                 </span>
                     <img src="../images/back.png" class="no-display">
             </div>
 
             <div class="main-container">
                 {% for card in cards|sort %}
-                <a href="/packs/{{ card["pack"] }}/{{ loop.index }}" class="element">
+                <a href="/packs/{{ card.pack }}/{{ loop.index }}" class="element">
                     <span class="element-title">
-                        {{ loop.index }}
+                        {{ card.pack }} {{ card.id }}
                     </span>
                     <p class="element-paragraph">
                         asd

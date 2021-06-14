@@ -10,7 +10,7 @@ import functools
 # ----------------------------------------------------------------------------
 
 from discord.ext import commands
-from lib.classes import User
+from lib.classes import User, Pack
 
 class Momo(commands.Bot):
     
@@ -30,13 +30,23 @@ class Momo(commands.Bot):
 
     
     def get_user_objects(self):
-        user_dicts = self.db.data["users"]
-        return { int(d_id): User(user_dict=user_dicts[d_id]) for d_id in user_dicts }
+        user_dict_dict = self.db.data["users"]
+        return { int(user_id): User(user_dict=user_dict, id=user_id) for user_id, user_dict in user_dict_dict.items() }
 
 
     def get_user_dicts(self):
-        user_objects = self.users
-        return { str(d_id): user_objects[d_id].get_dict() for d_id in user_objects }
+        user_object_dict = self.users
+        return { str(user_id): user_object.get_dict() for user_id, user_object in user_object_dict.items() }
+
+
+    def get_pack_objects(self):
+        pack_list_dict = self.db.data["packs"]
+        return { pack_name: Pack(name=pack_name, pack_list=pack_list) for pack_name, pack_list in pack_list_dict.items() }
+
+
+    def get_pack_lists(self):
+        pack_object_dict = self.packs
+        return { pack_name: pack_object.get_list() for pack_name, pack_object in pack_object_dict.items() }
 
 
     def get_all_cards(self):
@@ -46,13 +56,13 @@ class Momo(commands.Bot):
     def pack_data(self):
         self.db.data["config"] = self.config 
         self.db.data["users"] = self.get_user_dicts()
-        self.db.data["packs"] = self.packs 
+        self.db.data["packs"] = self.get_pack_lists()
 
 
     def unpack_data(self):
         self.config = self.db.data["config"]
         self._users = self.get_user_objects()
-        self.packs = self.db.data["packs"]
+        self.packs = self.get_pack_objects()
 
 
     def add_cogs(self, cogs):
