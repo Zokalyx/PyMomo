@@ -16,8 +16,9 @@ def set_env(on_cloud):
         env.globals["SP"] = "http://localhost:8000/"
 
 
+"""
 def add_static(cog):
-    for folder in ["images", "scripts", "styles"]:
+    for folder in ["images", "scripts", "styles", "fonts"]:
         folder_path = "./lib/web/" + folder + "/"
         for fil in os.listdir(folder_path):
             path = folder_path + fil
@@ -31,6 +32,9 @@ def add_static(cog):
                     content_type = "text/javascript"
                 elif folder == "styles":
                     content_type = "text/css"
+                elif folder == "fonts":
+                    content_type = "font/" + extension
                 return Response(body=body, content_type=content_type)
             _ROUTES.append(RouteDef(f"/{folder}/" + fil, "GET", fuck, cog))
             setattr(cog, folder + "_" + fil.replace(".", "_"), fuck)
+"""
