@@ -2,6 +2,8 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 import os
 from aiohttp.web import Response
 from server.server import RouteDef, _ROUTES
+from datetime import timedelta, datetime
+import pytz
 
 env = Environment(
     loader=FileSystemLoader("./lib/web/templates"),
@@ -14,6 +16,31 @@ def set_env(on_cloud):
         env.globals["SP"] = "https://pymomo.zokalyx.repl.co/"
     else:
         env.globals["SP"] = "http://localhost:8000/"
+
+
+def was_modified(cog, req):
+    try:
+        req.if_modified_since
+        return (
+            pytz.UTC.localize(cog.bot.last_modified)
+            - req.if_modified_since > timedelta(seconds=1)
+        )
+    except (AttributeError, TypeError):
+        return True
+
+
+def was_modified_static(mod_time, req):
+    try:
+        req.if_modified_since
+        print(req.if_modified_since)
+        print(pytz.UTC.localize(datetime.utcfromtimestamp(mod_time)))
+        return (
+            pytz.UTC.localize(datetime.utcfromtimestamp(mod_time))
+            - req.if_modified_since > timedelta(seconds=1)
+        )
+    except (AttributeError, TypeError):
+        return True
+
 
 
 env.filters["pluralize"] = lambda x: "" if x == 1 else "s"

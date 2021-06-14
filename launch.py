@@ -12,5 +12,3 @@ db.load()
 momo = Momo(database=db, **init_dict)
 momo.add_cogs(cogs)
 momo.run(os.getenv("PYMOMO_TOKEN"))
-
-from flask import Flask

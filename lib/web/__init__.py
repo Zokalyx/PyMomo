@@ -1,1 +1,1 @@
-from lib.web.jinja import env, set_env
+from lib.web.jinja import env, set_env, was_modified, was_modified_static

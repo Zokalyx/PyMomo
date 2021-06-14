@@ -6,6 +6,8 @@ if platform.system() == 'Windows':
 	asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 import functools
+from datetime import datetime
+import pytz
 
 # ----------------------------------------------------------------------------
 
@@ -17,6 +19,7 @@ class Momo(commands.Bot):
     def __init__(self, *args, database, **kwargs):
         self.db = database
         self.unpack_data()
+        self.last_modified = datetime.utcnow()
         super().__init__(*args, **kwargs)
 
 
