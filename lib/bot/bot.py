@@ -28,6 +28,10 @@ class Momo(commands.Bot):
         return self._users  
 
 
+    def update_last_modified(self):
+        self.last_modified = datetime.utcnow()
+
+
     def add_server(self, server):
         self.server = server
 
@@ -53,7 +57,7 @@ class Momo(commands.Bot):
 
 
     def get_all_cards(self):
-        return functools.reduce(lambda x,y: x+y, self.packs.values(), [])
+        return functools.reduce(lambda x,y: x+y, dict(sorted(self.packs.items())).values(), [])
 
 
     def pack_data(self):
@@ -94,7 +98,7 @@ class Momo(commands.Bot):
     async def on_command_error(self, ctx, exception):
         cmd = ctx.command
         if cmd is None:
-            await ctx.send("Comando no reconocido")
+            await ctx.send("❌ Comando no reconocido")
         else:
             await ctx.send(f"Uso correcto: `{cmd.name} {cmd.usage}`\n" +
                 str(exception))

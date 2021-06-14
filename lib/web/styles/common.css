@@ -85,13 +85,14 @@ a:hover
 
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
 }
 
 .element
 {
     margin: 1em;
-    padding: 2em;
+    padding: 1.8em;
     border-radius: 1em;
     border-width: 0em;
     border-color: white;
@@ -105,7 +106,33 @@ a:hover
 
     position: relative;
     top: 0em;
-    transition: top 300ms, background-color 300ms, border-width 50ms, padding 50ms;
+    transition: top 300ms, background-color 300ms;
+
+    text-align: center;
+
+    background-color: rgb(50, 50, 50);
+}
+
+.card-element
+{
+    margin: 1em;
+    padding: 0.5em;
+    border-radius: 1em;
+    border-width: 0em;
+    border-color: white;
+    border-style: solid;
+    /*width: 50em;*/
+
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+    top: 0em;
+    transition: top 300ms, background-color 300ms;
 
     text-align: center;
 
@@ -117,7 +144,15 @@ a:hover
     top: -0.75em;
     background-color: rgb(60, 60, 60);
     border-width: 0.05em;
-    padding: 1.95em;
+    padding: 1.75em;
+}
+
+.card-element:hover
+{
+    top: -0.75em;
+    background-color: rgb(60, 60, 60);
+    border-width: 0.05em;
+    padding: 0.45em;
 }
 
 .element-title
@@ -125,15 +160,33 @@ a:hover
     font-size: 2.5em;
 }
 
+.card-title
+{
+    font-size: 2em;
+    margin: 0.05em;
+}
+
 .element-image
 {
-    max-width: 10em;
+    max-width: 15em;
     height: auto;
+}
+
+.card-image
+{
+    max-width: 15em;
+    max-height: 30em;
 }
 
 .element-paragraph
 {
-    font-size: 1.5em;
+    font-size: 1.2em;
+}
+
+.card-paragraph
+{
+    font-size: 1em;
+    margin: 0.5em;
 }
 
 .title-row

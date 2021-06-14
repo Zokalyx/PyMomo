@@ -49,7 +49,11 @@ class MomoServer(Cog):
             self.bot.pack_data()
             pack = request.match_info["pack"]
             return web.Response(
-                body=env.get_template("cards.html").render(cards=self.bot.packs[pack], pack=pack),
+                body=env.get_template("cards.html").render(
+                    cards=self.bot.packs[pack],
+                    pack=pack,
+                    users=self.bot.users
+                ),
                 content_type="html",
                 headers={
                     "Last-Modified": self.bot.last_modified.strftime("%a, %d %b %Y %H:%M:%S GMT")
@@ -64,7 +68,11 @@ class MomoServer(Cog):
         if was_modified(self, request):
             self.bot.pack_data()
             return web.Response(
-                body=env.get_template("all.html").render(cards=self.bot.get_all_cards(), pack="Todas las cartas"),
+                body=env.get_template("all.html").render(
+                    cards=self.bot.get_all_cards(),
+                    pack="Todas las cartas",
+                    users=self.bot.users
+                ),
                 content_type="html",
                 headers={
                     "Last-Modified": self.bot.last_modified.strftime("%a, %d %b %Y %H:%M:%S GMT")

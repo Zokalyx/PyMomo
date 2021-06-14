@@ -28,14 +28,16 @@
             </div>
 
             <div class="main-container">
-                {% for card in cards|sort %}
-                <a href="/packs/{{ card.pack }}/{{ loop.index }}" class="element">
-                    <span class="element-title">
+                {% for card in cards %}
+                <a href="/packs/{{ card.pack }}/{{ loop.index }}" class="card-element">
+                    <span class="card-title">
                         {{ card.pack }} {{ card.id }}
                     </span>
-                    <img class="element-image" src="{{ card.link }}">
-                    <p class="element-paragraph">
-                        Dueño
+                    <img class="card-image" src="{{ card.link }}">
+                    <p class="card-paragraph">
+                        {{ "Dueño: " + users[card.owner].default_name if card.owner else "Sin dueño" }}
+                        <br>
+                        ${{ card.value }}
                     </p>
                 </a>
                 {% endfor %}

@@ -32,8 +32,6 @@ def was_modified(cog, req):
 def was_modified_static(mod_time, req):
     try:
         req.if_modified_since
-        print(req.if_modified_since)
-        print(pytz.UTC.localize(datetime.utcfromtimestamp(mod_time)))
         return (
             pytz.UTC.localize(datetime.utcfromtimestamp(mod_time))
             - req.if_modified_since > timedelta(seconds=1)

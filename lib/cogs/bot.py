@@ -77,3 +77,11 @@ class MomoBot(Cog):
         """ejecuta código y muestra el resultado en Discord"""
         exec("async def __ex(momo, ctx):\n    return " + code)
         await ctx.send(await locals()["__ex"](self.bot, ctx))
+
+    
+    @command()
+    @is_owner()
+    async def update(self, ctx):
+        """actualiza el tiempo de último cambio de datos"""
+        self.bot.update_last_modified()
+        await ctx.send("Última actualización: " + str(self.bot.last_modified))
