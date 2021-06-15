@@ -1,5 +1,7 @@
 .env
 .db
 data/db.json
+data/audio.mp3
+song.mp3
 test.py
 __pycache__

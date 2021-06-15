@@ -94,7 +94,6 @@ class Momo(commands.Bot):
                 self.users[author.id] = User(user=author)
             await self.process_commands(message)
 
-    
     async def on_command_error(self, ctx, exception):
         cmd = ctx.command
         if cmd is None:
