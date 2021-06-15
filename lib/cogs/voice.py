@@ -103,23 +103,23 @@ class MomoVoice(Cog):
 
     @command(usage="<texto>")
     async def say(self, ctx, *, words=None):
-        """Dice lo que escribas"""
+        """Dice lo que escribas a través de voz"""
         if words is None:
-            raise errors.MissingRequiredArgument(words)
+            await ctx.send("Uso correcto: `say <texto>`")
+            return
         if await self.join(ctx):
-            async with ctx.typing():
-                tts = gTTS(words, lang="es")
-                with open("./data/audio.mp3", "wb") as mp3:
-                    tts.write_to_fp(mp3)
-                self.connection.play(FFmpegOpusAudio("./data/audio.mp3"))
-                return True
+            tts = gTTS(words, lang="es")
+            with open("./data/audio.mp3", "wb") as mp3:
+                tts.write_to_fp(mp3)
+            self.connection.play(FFmpegOpusAudio("./data/audio.mp3"))
+            return True
         else:
             return False
 
 
     @command(usage="(<link>)", aliases=["p"])
     async def play(self, ctx, link=None):
-        """Reproduce el contenido del link de Youtube en directo, sin predescargar"""
+        """Reproduce o despausa el contenido del link de Youtube en directo, sin predescargar"""
         if self.connection and self.connection.is_paused():
             self.connection.resume()
             return
@@ -134,40 +134,43 @@ class MomoVoice(Cog):
             await ctx.send(f'Reproduciendo: {player.title}')
 
 
-    @command()
+    @command(usage="<link>")
     async def stream(self, ctx, link=None):
-        """Reproduce el contenido del link de Youtube luego de predescargar el audio"""
-        if self.connection.is_paused():
+        """Reproduce el contenido del link de Youtube luego de predescargar el audio (mayor calidad)"""
+        if self.connection and self.connection.is_paused():
             self.connection.resume()
             return
         elif link is None:
-            raise errors.MissingRequiredArgument(link)
+            await ctx.send("Reproducí audio con `stream <link>`")
+            return
         if await self.join(ctx):
-            song_there = os.path.isfile("song.mp3")
-            try:
-                if song_there:
-                    os.remove("./song.mp3")
-            except PermissionError:
-                await ctx.send("Esperá a que termine este audio o frenalo con `stop`")
-                return
+            async with ctx.typing():
+                song_there = os.path.isfile("song.mp3")
+                try:
+                    if song_there:
+                        os.remove("./song.mp3")
+                except PermissionError:
+                    await ctx.send("Esperá a que termine este audio o frenalo con `stop`")
+                    return
 
-            # loading = await ctx.send("Cargando...")
+                # loading = await ctx.send("Cargando...")
 
-            ydl_opts = {
-                'format': 'bestaudio/best',
-                'postprocessors': [{
-                    'key': 'FFmpegExtractAudio',
-                    'preferredcodec': 'mp3',
-                    'preferredquality': '192',
-                }],
-            }
-            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                ydl.download([link])
-            for file in os.listdir("./"):
-                if file.endswith(".mp3"):
-                    os.rename(file, "song.mp3")
-            self.connection.play(FFmpegOpusAudio("./song.mp3"))
-            # await loading.delete()
+                ydl_opts = {
+                    'format': 'bestaudio/best',
+                    'postprocessors': [{
+                        'key': 'FFmpegExtractAudio',
+                        'preferredcodec': 'mp3',
+                        'preferredquality': '192',
+                    }],
+                }
+                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                    ydl.download([link])
+                for file in os.listdir("./"):
+                    if file.endswith(".mp3"):
+                        old_filename = file[:-16]
+                        os.rename(file, "song.mp3")
+                self.connection.play(FFmpegOpusAudio("./song.mp3"))
+            await ctx.send(f'Reproduciendo: {old_filename}')
             return True
         else:
             return False
@@ -190,7 +193,7 @@ class MomoVoice(Cog):
     @command()
     @is_owner()
     async def momo(self, ctx, *, words=None):
-        """Responde a lo que digas"""
+        """Responde a lo que digas a través de voz o texto"""
         if words is not None:
             voice = ctx.author.voice
             async with ctx.typing():
@@ -205,6 +208,7 @@ class MomoVoice(Cog):
                     top_p=1,
                     frequency_penalty=0.0,
                     presence_penalty=0.6,
+                    
                 )
                 restext = response["choices"][0]["text"]
                 self.conversation += "\n" + restext
