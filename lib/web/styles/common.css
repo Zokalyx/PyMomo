@@ -91,9 +91,9 @@ a:hover
 
 .element
 {
-    margin: 1em;
-    padding: 1.8em;
-    border-radius: 1em;
+    margin: 0.5em;
+    padding: 1em;
+    border-radius: 0.75em;
     border-width: 0em;
     border-color: white;
     border-style: solid;
@@ -141,15 +141,15 @@ a:hover
 
 .element:hover
 {
-    top: -0.75em;
+    top: -0.5em;
     background-color: rgb(60, 60, 60);
     border-width: 0.05em;
-    padding: 1.75em;
+    padding: 0.95em;
 }
 
 .card-element:hover
 {
-    top: -0.75em;
+    top: -0.5em;
     background-color: rgb(60, 60, 60);
     border-width: 0.05em;
     padding: 0.45em;
@@ -168,7 +168,7 @@ a:hover
 
 .element-image
 {
-    max-width: 15em;
+    max-width: 10em;
     height: auto;
 }
 
@@ -181,12 +181,14 @@ a:hover
 .element-paragraph
 {
     font-size: 1.2em;
+    margin: 0.1em;
 }
 
 .card-paragraph
 {
     font-size: 1em;
     margin: 0.5em;
+    margin-bottom: 0.25em;
 }
 
 .title-row

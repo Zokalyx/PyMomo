@@ -33,6 +33,7 @@ class MomoBot(Cog):
     @command()
     async def exit(self, ctx):
         """guarda todos los datos y apaga el bot"""
+        await self.bot.cogs["MomoVoice"].leave(None)
         msg = await ctx.send("Guardando datos y apagando...")
         self.bot.db.save()
         await msg.edit(content="Guardando datos y apagando... ✅")
