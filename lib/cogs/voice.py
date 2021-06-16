@@ -191,6 +191,13 @@ class MomoVoice(Cog):
 
 
     @command()
+    async def reset(self, ctx):
+        """Reestablece la conversación con Momo"""
+        self.conversation = ""
+        await ctx.send("Conversación olvidada")
+
+
+    @command()
     @is_owner()
     async def momo(self, ctx, *, words=None):
         """Responde a lo que digas a través de voz o texto"""

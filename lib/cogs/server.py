@@ -15,7 +15,7 @@ class MomoServer(Cog):
         self.bot = bot
         self.server = server.HTTPServer(
             bot=self.bot,
-            port=8000,
+            port=25565,
             host="0.0.0.0"
         )
         # add_static(self)
@@ -43,7 +43,7 @@ class MomoServer(Cog):
             return web.Response(status=304)
 
 
-    @server.add_route(path="/packs/{pack}", method="GET", cog="MomoServer")
+    @server.add_route(path="/packs/{pack}/", method="GET", cog="MomoServer")
     async def home(self, request):
         if was_modified(self, request):
             self.bot.pack_data()
@@ -88,6 +88,36 @@ class MomoServer(Cog):
             self.bot.pack_data()
             return web.Response(
                 body=env.get_template("packs.html").render(packs=self.bot.packs),
+                content_type="html",
+                headers={
+                    "Last-Modified": self.bot.last_modified.strftime("%a, %d %b %Y %H:%M:%S GMT")
+                }
+            )
+        else:
+            return web.Response(status=304)
+
+
+    @server.add_route(path="/users/", method="GET", cog="MomoServer")
+    async def home(self, request):
+        if was_modified(self, request):
+            self.bot.pack_data()
+            return web.Response(
+                body=env.get_template("users.html").render(users=self.bot.users),
+                content_type="html",
+                headers={
+                    "Last-Modified": self.bot.last_modified.strftime("%a, %d %b %Y %H:%M:%S GMT")
+                }
+            )
+        else:
+            return web.Response(status=304)
+
+
+    @server.add_route(path="/changelog/", method="GET", cog="MomoServer")
+    async def home(self, request):
+        if was_modified(self, request):
+            self.bot.pack_data()
+            return web.Response(
+                body=env.get_template("changelog.html").render(),
                 content_type="html",
                 headers={
                     "Last-Modified": self.bot.last_modified.strftime("%a, %d %b %Y %H:%M:%S GMT")
@@ -205,4 +235,4 @@ class MomoServer(Cog):
         if self.bot.db.on_cloud:
             await ctx.send("https://pymomo.zokalyx.repl.co")
         else:
-            await ctx.send("http://localhost:8000")
+            await ctx.send(f"http://localhost:{self.server.port}")

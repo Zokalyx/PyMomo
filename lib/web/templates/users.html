@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="/images/momo.ico" type="image/x-icon">
+        <link rel="stylesheet" href="/styles/common.css" type="text/css">
+        <script src="/scripts/cards.js"></script>
+        <style>
+            #order-form:hover
+            {
+                height: 5.3em;
+            }
+            {% for id, user in users.items() %}
+                #user-{{ id }}
+                {
+                    border-color: #{{ "%x"|format(user.color) }};
+                }
+            {% endfor %}
+        </style>
+        <title>
+            Usuarios
+        </title>
+    </head>
+
+
+    <body>
+        <header>
+            <a id="logo" href="/">Momo</a>
+        </header>
+
+        <main>
+            <div class="title-row">
+                <div id="left-panel">
+                    <div id="back">
+                        <a href="../">
+                            <img src="/images/back.png">
+                        </a>
+                    </div>
+                    <!--div id="rarity-filter">
+                        <label class="container">
+                            <span class="checkbox-text">Común</span>
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                        
+                        <label class="container">
+                            <span class="checkbox-text">Rara</span>
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                        
+                        <label class="container">
+                            <span class="checkbox-text">Épica</span>
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                        
+                        <label class="container">
+                            <span class="checkbox-text">Legendaria</span>
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+
+                        <label class="container">
+                            <span class="checkbox-text">Mítica</span>
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                        <!--img src="../images/back.png" class="no-display"-->
+                        
+                    <!--/div-->
+                </div>
+                <span class="title">
+                    Usuarios
+                </span>
+                <div id="right-panel">
+                    <div class="container-for-form">
+                        <div class="form" id="order-form">
+                            <span class="form-title">Orden</span>
+                            <label class="container" id="order-number">
+                                <span class="checkbox-text">Cartas</span>
+                                <input type="radio" name="order" checked>
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="container" id="order-value">
+                                <span class="checkbox-text">Valor neto</span>
+                                <input type="radio" name="order">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-container">
+                {% for id, user in users.items() %}
+                <a href="/users/{{ id }}"
+                   class="user-element"
+                   id="user-{{ id }}"
+                >
+                    <div class="user-title-row">
+                        <div class="user-name-desc">
+                            <span class="user-title">{{ user.default_name }}</span>
+                            <span>{{ user.description }}</span>
+                        </div>
+
+                        <img src="{{ user.img }}">
+                    </div>
+
+                    <div class="user-data">
+
+                        <div class="user-column">
+                            ASD
+                        </div>
+
+                        <div class="user-column">
+                            ASD
+                        </div>
+
+                        <div class="user-column">
+                            ASD
+                        </div>
+
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </main>
+
+        <!--<footer>
+            Holi
+        </footer>-->
+    </body>
+    <script> </script>
+</html>

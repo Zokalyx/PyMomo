@@ -3,10 +3,12 @@
     src: url(../fonts/simplifica.woff);
 }
 
+/*
 @font-face {
     font-family: raleway;
-    src: url(../fonts/raleway.ttf);
+    src: url(../fonts/raleway.woff);
 }
+*/
 
 @keyframes fadein
 {
@@ -22,7 +24,7 @@
 
 body
 {  
-    font-family: raleway;
+    font-family: Raleway;
 
     display: flex;
     flex-direction: column;
@@ -54,7 +56,7 @@ header
 main
 {
     position: relative;
-    animation: fadein 1.5s, fadeup 1s;
+    /*animation: fadein 1.5s, fadeup 1s;*/
 }
 
 footer
@@ -87,6 +89,8 @@ a:hover
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+
+    animation: fadein 1.5s;
 }
 
 .element
@@ -111,11 +115,14 @@ a:hover
     text-align: center;
 
     background-color: rgb(50, 50, 50);
+    /* background-image: linear-gradient(rgb(70, 70, 70), rgb(50, 50, 50)); */
+
+    animation: fadeup 1s;
 }
 
 .card-element
 {
-    margin: 1em;
+    margin: 0.5em;
     padding: 0.5em;
     border-radius: 1em;
     border-width: 0em;
@@ -124,6 +131,8 @@ a:hover
     /*width: 50em;*/
 
     height: auto;
+    height: 15em;
+    z-index: -1;
 
     display: flex;
     flex-direction: column;
@@ -137,6 +146,8 @@ a:hover
     text-align: center;
 
     background-color: rgb(50, 50, 50);
+
+    animation: fadein 1.5s, fadeup 1s;
 }
 
 .element:hover
@@ -168,14 +179,14 @@ a:hover
 
 .element-image
 {
-    max-width: 10em;
+    max-width: 8em;
     height: auto;
 }
 
 .card-image
 {
     max-width: 15em;
-    max-height: 30em;
+    max-height: 10em;
 }
 
 .element-paragraph
@@ -193,10 +204,13 @@ a:hover
 
 .title-row
 {
+    position: relative;
     margin: 1em;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    animation: fadein 1.5s /*, fadeup 1s;*/
 }
 
 .title-row img
@@ -206,7 +220,8 @@ a:hover
 
 .title
 {
-    font-size: 3em;
+    font-size: 3em;  
+    text-align: center;
 }
 
 #logo
@@ -217,4 +232,331 @@ a:hover
 .no-display
 {
     visibility: hidden;
+}
+
+.c
+{
+    background-color: rgb(45, 55, 65);
+    
+}
+.c:hover
+{
+    background-color: rgb(35, 63, 88);
+}
+
+.r
+{
+    background-color: rgb(42, 65, 42);
+}
+.r:hover
+{
+    background-color: rgb(39, 78, 39);
+}
+
+.e
+{
+    background-color: rgb(69, 43, 83);
+}
+.e:hover
+{
+    background-color: rgb(88, 26, 105);
+}
+
+
+.l
+{
+    background-color: #522237;
+}
+.l:hover
+{
+    background-color: rgb(116, 19, 75);
+}
+
+.m
+{
+    background-color: #275e68;
+}
+.m:hover
+{
+    background-color: #1c7383;
+}
+
+
+
+#rarity-filter
+{
+    width: 28em;
+    margin: 0em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.checkbox-text
+{
+    position: relative;
+    top: -0.1em;
+}
+
+#back
+{
+    width: auto;
+    margin-right: 6em;
+}
+
+#left-panel
+{
+    width: 25em;
+    display: flex;
+}
+
+#right-panel
+{
+    width: 25em;
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+/* https://www.w3schools.com/howto/howto_css_custom_checkbox.asp */
+
+/* Customize the label (the container) */
+.container {
+    display: block;
+    position: relative;
+    padding-left: 1.2em;
+    padding-bottom: 0.4em;
+    margin-bottom: 0em;
+    cursor: pointer;
+    font-size: 1.1em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    transition: background-color 1s;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1em;
+    width: 1em;
+    background-color: #eee;
+    border-radius: 0.3em;
+    transition: background-color 500ms;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .container:hover input ~ .checkmark {
+    background-color: rgb(167, 167, 167);
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .container input:checked ~ .checkmark {
+    background-color: #0061b1;
+  }
+  #check-c input:checked ~ .checkmark {
+    background-color: rgb(32, 104, 175);
+  }
+  #check-r input:checked ~ .checkmark {
+    background-color: rgb(34, 134, 34);
+  }
+  #check-e input:checked ~ .checkmark {
+    background-color: rgb(131, 60, 168);
+  }
+  #check-l input:checked ~ .checkmark {
+    background-color: rgb(168, 23, 108);
+  }
+  #check-m input:checked ~ .checkmark {
+    background-color: rgb(40, 158, 158);
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /*
+  /* Style the checkmark/indicator 
+  .container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    /*border-width: 0 3px 3px 0;
+    /*
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    content: "Y";
+  }
+  */
+
+.form-title
+{
+    font-size: 1.5em;
+    padding-bottom: 0.3em;
+    cursor: default;
+}
+
+.form
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position:absolute;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    top: 0.5em;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0);
+    height: 1.7em;
+    overflow: hidden;
+
+    transition: all 350ms ease-in-out;
+}
+
+.form:hover
+{
+    background-color: rgb(70, 70, 70);
+    height: 10.5em;
+}
+
+.container-for-form
+{
+    width: 10em;
+}
+
+.user-element
+{
+    margin: 0.5em;
+    padding: 1em;
+    border-radius: 0.75em;
+    border-width: 0em;
+    border-style: solid;
+    /*width: 50em;*/
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    position: relative;
+    top: 0em;
+    transition: top 300ms, background-color 300ms;
+
+    text-align: center;
+
+    background-color: rgb(50, 50, 50);
+    /* background-image: linear-gradient(rgb(70, 70, 70), rgb(50, 50, 50)); */
+
+    animation: fadeup 1s;
+    width: 20em;
+    height: 12em;
+}
+
+.user-title-row
+{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.user-data
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.user-element:hover
+{
+    top: -0.5em;
+    background-color: rgb(60, 60, 60);
+    border-width: 0.05em;
+    padding: 0.95em;
+}
+
+.user-element img
+{
+    max-width: 6em;
+    border-radius: 0.5em;
+}
+
+.user-title
+{
+    font-size: 2em;  
+    text-align: center;
+}
+
+.user-name-desc
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.update-block
+{
+    display: flex;
+    justify-content: center;
+
+    margin: 0.5em;
+    padding: 2em;
+    border-radius: 0.75em;
+    border-width: 0em;
+    border-color: white;
+    border-style: solid;
+    width: 70%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    position: relative;
+    top: 0em;
+    transition: top 300ms, background-color 300ms;
+
+    text-align: center;
+
+    background-color: rgb(50, 50, 50);
+    /* background-image: linear-gradient(rgb(70, 70, 70), rgb(50, 50, 50)); */
+
+    animation: fadeup 1s;
+
+}
+
+.update-column
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: left;
+    width: 25%;
+}
+
+.update-title
+{
+    font-size: 2em;
 }

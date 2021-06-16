@@ -3,8 +3,28 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <link rel="shortcut icon" href="../images/momo.ico" type="image/x-icon">
-        <link rel="stylesheet" href="../styles/common.css" type="text/css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="/images/momo.ico" type="image/x-icon">
+        <link rel="stylesheet" href="/styles/common.css" type="text/css">
+        <script src="/scripts/all.js"></script>
+        <style>
+            #user-form:hover
+            {
+                background-color: rgb(70, 70, 70);
+                height: {{ 4.1 + 1.6*users|length }}em;
+            }
+            #order-form:hover
+            {
+                height: 5.3em;
+            }
+            {% for id, user in users.items() %}
+            #check-{{ id }} input:checked ~ .checkmark
+            {
+                background-color: #{{ "%x"|format(user.color) }};
+            }
+            {% endfor %}
+        </style>
         <title>
             Cartas
         </title>
@@ -13,23 +33,136 @@
 
     <body>
         <header>
-            <a id="logo" href="../">Momo</a>
+            <a id="logo" href="/">Momo</a>
         </header>
 
         <main>
             <div class="title-row">
-                <a href="../packs/">
-                    <img src="../images/back.png">
-                </a>
+                <div id="left-panel">
+                    <div id="back">
+                        <a href="../">
+                            <img src="/images/back.png">
+                        </a>
+                    </div>
+                    <!--div id="rarity-filter">
+                        <label class="container">
+                            <span class="checkbox-text">Común</span>
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                        
+                        <label class="container">
+                            <span class="checkbox-text">Rara</span>
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                        
+                        <label class="container">
+                            <span class="checkbox-text">Épica</span>
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                        
+                        <label class="container">
+                            <span class="checkbox-text">Legendaria</span>
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+
+                        <label class="container">
+                            <span class="checkbox-text">Mítica</span>
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                        <!--img src="../images/back.png" class="no-display"-->
+                        
+                    <!--/div-->
+                </div>
                 <span class="title">
                     Todas las cartas
                 </span>
-                    <img src="../images/back.png" class="no-display">
+                <div id="right-panel">
+                    <div class="container-for-form">
+                        <div class="form" id="order-form">
+                            <span class="form-title">Orden</span>
+                            <label class="container" id="order-number">
+                                <span class="checkbox-text">Número</span>
+                                <input type="radio" name="order" checked>
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="container" id="order-value">
+                                <span class="checkbox-text">Valor</span>
+                                <input type="radio" name="order">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="container-for-form">
+                        <div class="form" id="user-form">
+                            <span class="form-title">Dueño</span>
+                            <label class="container" id="check-0">
+                                <span class="checkbox-text">Sin dueño</span>
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            {% for id, user in users.items() %}
+                            <label class="container" id="check-{{ user.id }}">
+                                <span class="checkbox-text">{{ user.default_name }}</span>
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="container-for-form">
+                        <div class="form">
+                            <span class="form-title">Rareza</span>
+                            <label class="container" id="check-c">
+                                <span class="checkbox-text">Común</span>
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            
+                            <label class="container" id="check-r">
+                                <span class="checkbox-text">Rara</span>
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            
+                            <label class="container" id="check-e">
+                                <span class="checkbox-text">Épica</span>
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            
+                            <label class="container" id="check-l">
+                                <span class="checkbox-text">Legendaria</span>
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+    
+                            <label class="container" id="check-m">
+                                <span class="checkbox-text">Mítica</span>
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="main-container">
                 {% for card in cards %}
-                <a href="/packs/{{ card.pack }}/{{ loop.index }}" class="card-element">
+                <a href="/packs/{{ pack }}/{{ loop.index }}"
+                   class="card-element {{ card.rarity }}"
+                   data-id="{{ card.id }}"
+                    data-rarity="{{ card.rarity }}""
+                    data-owner="{{ users[card.owner].id if card.owner else 0 }}"
+                    data-value="{{ card.value * card.mult }}"
+                    data-pack="{{ card.pack }}"   
+                >
                     <span class="card-title">
                         {{ card.pack }} {{ card.id }}
                     </span>
@@ -37,7 +170,7 @@
                     <p class="card-paragraph">
                         {{ "Dueño: " + users[card.owner].default_name if card.owner else "Sin dueño" }}
                         <br>
-                        ${{ card.value }}
+                        ${{ card.value }} &nbsp; &nbsp; &nbsp; x{{ card.mult }}
                     </p>
                 </a>
                 {% endfor %}

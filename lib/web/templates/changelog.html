@@ -8,7 +8,7 @@
         <link rel="shortcut icon" href="/images/momo.ico" type="image/x-icon">
         <link rel="stylesheet" href="/styles/common.css" type="text/css">
         <title>
-            Lista de packs
+            Cambios
         </title>
     </head>
 
@@ -22,33 +22,35 @@
             <div class="title-row">
                 <a href="../"><img src="/images/back.png"></a> 
                 <span class="title">
-                    Elegí un pack para visualizar
+                    Últimas actualizaciones
                 </span>
-                    <img src="/images/back.png" class="no-display">
+                <a href="https://github.com/Zokalyx/PyMomo"><img src="/images/github.png"></a> 
             </div>
 
             <div class="main-container">
-                <a href="/cards/" class="element">
-                    <span class="element-title">
-                        Todas las<br>cartas
-                    </span>
+                <div class="update-block">
+                    <div class="update-column">
+                        <span class="element-title">
+                            PyMomo 0.1
+                        </span>
+                    </div>
+                    <div class="update-column"></div>
+                    <div class="update-column">
+                        <span class="update-title">
+                            Adiciones
+                        </span>
+                    </div>
+
+                    <div class="update-column">
+                        <span class="update-title">
+                            Cambios
+                        </span>
+                    </div>
                 <!--<img class="front-page-image" src="../images/cards.png">
                 <p class="front-page-paragraph">
                     Explorá cartas mediante el uso de filtros
                 </p>-->
-                </a>
-        
-
-                {% for pack in packs|sort %}
-                <a href="./{{ pack }}/" class="element">
-                    <span class="element-title">
-                        {{ pack }}
-                    </span>
-                    <p class="element-paragraph">
-                        {{ packs[pack]|length }} carta{{ packs[pack]|length|pluralize }}
-                    </p>
-                </a>
-                {% endfor %}
+            </div>
             </div>
         </main>
 

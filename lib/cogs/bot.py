@@ -27,6 +27,7 @@ class MomoBot(Cog):
         msg = await ctx.send("Cargando datos... ")
         self.bot.db.load()
         self.bot.unpack_data()
+        self.bot.update_last_modified()
         await msg.edit(content="Cargando datos... ✅")
 
 
@@ -86,3 +87,25 @@ class MomoBot(Cog):
         """actualiza el tiempo de último cambio de datos"""
         self.bot.update_last_modified()
         await ctx.send("Última actualización: " + str(self.bot.last_modified))
+
+
+    """
+    @command()
+    @is_owner()
+    async def set(self, ctx, *, code):
+        \"""Establece un valor de los datos de Momo\"""
+        args = code.split()
+        if len(args) < 3:
+            await ctx.send("Pocos argumentos")
+            return
+        sanitized = []
+        for arg in args:
+            try:
+                sanitized.append(int(arg))
+            except ValueError:
+                sanitized.append(arg)
+        current = getattr(self.bot, sanitized[0])
+        for arg in sanitized[1:-2]:
+            current = current[arg]
+        current[sanitized[-2]] = sanitized[-1]
+    """
