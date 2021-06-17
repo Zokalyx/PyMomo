@@ -102,7 +102,7 @@ class MomoServer(Cog):
         if was_modified(self, request):
             self.bot.pack_data()
             return web.Response(
-                body=env.get_template("users.html").render(users=self.bot.users),
+                body=env.get_template("users.html").render(users=self.bot.users, collections=self.bot.get_full_collections()),
                 content_type="html",
                 headers={
                     "Last-Modified": self.bot.last_modified.strftime("%a, %d %b %Y %H:%M:%S GMT")

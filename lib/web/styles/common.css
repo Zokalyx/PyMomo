@@ -132,7 +132,7 @@ a:hover
 
     height: auto;
     height: 15em;
-    z-index: -1;
+    z-index: 0;
 
     display: flex;
     flex-direction: column;
@@ -472,7 +472,7 @@ a:hover
 
     animation: fadeup 1s;
     width: 20em;
-    height: 12em;
+    height: 10em;
 }
 
 .user-title-row
@@ -516,6 +516,20 @@ a:hover
     flex-direction: column;
 }
 
+.user-column
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    font-size: 1.2em;
+}
+
+.user-column-title
+{
+    
+}
+
 .update-block
 {
     display: flex;
@@ -532,7 +546,7 @@ a:hover
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
 
     position: relative;
     top: 0em;
@@ -553,10 +567,26 @@ a:hover
     flex-direction: column;
     justify-content: flex-start;
     text-align: left;
-    width: 25%;
+    width: 27.5%;
+    margin-right: 2em;
+}
+
+.empty-update-column
+{
+    width: 15%;
 }
 
 .update-title
 {
     font-size: 2em;
+}
+
+ul
+{
+    padding-left: 0em;
+}
+
+li
+{
+    margin-bottom: 0.3em;
 }

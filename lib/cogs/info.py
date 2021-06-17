@@ -9,12 +9,14 @@ class MomoInfo(Cog):
         self.name = "info"
         self.aliases = ["info"]
 
+
     def cog_of(self, word):
         cogs = self.bot.cogs
         for cog in cogs:
             if word in cogs[cog].aliases:
                 return cogs[cog]
         return None
+
 
     def specific_command_help(self, command):
         return (
@@ -25,6 +27,7 @@ class MomoInfo(Cog):
                 ", ".join([f"`{a}`" for a in command.aliases])
                 if command.aliases else "")
         )
+
 
     def category_help(self, cog):
         title = f"__{cog.description}__\n"
@@ -37,6 +40,7 @@ class MomoInfo(Cog):
             )
         return title + content
 
+
     def general_help(self, guild_id):
         cfg = self.bot.config
         title = "__Información y ayuda__\n"
@@ -48,9 +52,6 @@ class MomoInfo(Cog):
             content += f"`help {cogs[cog].name}`: {cogs[cog].description}\n"
         return title + prefix + content
 
-    @command()
-    async def asd(self, ctx):
-        await ctx.send("No implementado")
 
     @command(usage="(<categoría>) o (<comando>)", aliases=["h"])
     async def help(self, ctx, command_or_category=None):

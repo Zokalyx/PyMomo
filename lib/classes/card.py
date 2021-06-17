@@ -11,4 +11,4 @@ class Card():
 
 
     def get_dict(self):
-        return {key: value for key, value in vars(self).items() if key not in ("id", "pack")}
+        return { key: value for key, value in vars(self).items() if key not in ("id", "pack") }
