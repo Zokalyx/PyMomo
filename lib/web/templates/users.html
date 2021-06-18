@@ -7,13 +7,13 @@
         <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="/images/momo.ico" type="image/x-icon">
         <link rel="stylesheet" href="/styles/common.css" type="text/css">
-        <script src="/scripts/cards.js"></script>
+        <script src="/scripts/users.js"></script>
         <style>
             #order-form:hover
             {
                 height: 7em;
             }
-            {% for id, user in users.items() %}
+            {% for id, user in users %}
                 #user-{{ id }}
                 {
                     border-color: #{{ "%x"|format(user.color) }};
@@ -80,13 +80,13 @@
                     <div class="container-for-form">
                         <div class="form" id="order-form">
                             <span class="form-title">Orden</span>
-                            <label class="container" id="order-balance">
-                                <span class="checkbox-text">Balance</span>
+                            <label class="container" id="order-cards">
+                                <span class="checkbox-text">Cartas</span>
                                 <input type="radio" name="order" checked>
                                 <span class="checkmark"></span>
                             </label>
-                            <label class="container" id="order-cards">
-                                <span class="checkbox-text">Cartas</span>
+                            <label class="container" id="order-balance">
+                                <span class="checkbox-text">Balance</span>
                                 <input type="radio" name="order">
                                 <span class="checkmark"></span>
                             </label>
@@ -101,10 +101,13 @@
             </div>
 
             <div class="main-container">
-                {% for id, user in users.items() %}
+                {% for id, user in users %}
                 <a href="/users/{{ id }}"
                    class="user-element"
                    id="user-{{ id }}"
+                   data-balance="{{ user.bal }}"
+                   data-cards="{{ collections[id]|length }}"
+                   data-level="{{ user.lvl }}"
                 >
                     <div class="user-title-row">
                         <div class="user-name-desc">
@@ -118,13 +121,13 @@
                     <div class="user-data">
 
                         <div class="user-column">
-                            <span class="user-column-title">Balance</span>
-                            ${{ user.bal }}
+                            <span class="user-column-title">Cartas</span>
+                            {{ collections[id]|length }}
                         </div>
 
                         <div class="user-column">
-                            <span class="user-column-title">Cartas</span>
-                            {{ collections[id]|length }}
+                            <span class="user-column-title">Balance</span>
+                            ${{ user.bal }}
                         </div>
 
                         <div class="user-column">

@@ -1,10 +1,11 @@
-from discord.ext.commands import Cog, command
-from aiohttp import web
-import server
-from lib.web import env, set_env, was_modified, was_modified_static
 import os
 from datetime import datetime
 
+import server
+from aiohttp import web
+
+from discord.ext.commands import Cog, command
+from lib.web import env, set_env, was_modified, was_modified_static
 
 class MomoServer(Cog):
     """Comandos relacionados a la página web"""
@@ -18,25 +19,50 @@ class MomoServer(Cog):
             port=25565,
             host="0.0.0.0"
         )
-        # add_static(self)
         set_env(self.bot.db.on_cloud)
         self.bot.loop.create_task(self._start_server())
 
 
-    async def _start_server(self):
+    async def _start_server(self) -> None:
+        """Enciende el servidor http"""
         await self.bot.wait_until_ready()
         print("Done!")
         await self.server.start()
 
 
     @server.add_route(path="/", method="GET", cog="MomoServer")
-    async def home(self, request):
+    async def home(self, request) -> web.Response:
+        """Momo webpage home screen"""
+        # Only show content if there was any modifications since
         if was_modified(self, request):
             return web.Response(
                 body=env.get_template("home.html").render(),
                 content_type="html",
                 headers={
-                    "Last-Modified": self.bot.last_modified.strftime("%a, %d %b %Y %H:%M:%S GMT")
+                    "Last-Modified": self.bot.last_modified.strftime(
+                        "%a, %d %b %Y %H:%M:%S GMT"
+                    )
+                }
+            )
+        else:
+            return web.Response(status=304)
+
+
+    @server.add_route(path="/packs/", method="GET", cog="MomoServer")
+    async def home(self, request) -> web.Response:
+        """Page for the selection of a pack to visualize"""
+        # Only show content if there was any modifications since
+        if was_modified(self, request):
+            self.bot.pack_data()
+            return web.Response(
+                body=env.get_template("packs.html").render(
+                    packs=self.bot.packs
+                ),
+                content_type="html",
+                headers={
+                    "Last-Modified": self.bot.last_modified.strftime(
+                        "%a, %d %b %Y %H:%M:%S GMT"
+                    )
                 }
             )
         else:
@@ -44,7 +70,9 @@ class MomoServer(Cog):
 
 
     @server.add_route(path="/packs/{pack}/", method="GET", cog="MomoServer")
-    async def home(self, request):
+    async def home(self, request) -> web.Response:
+        """Page for the visualization of cards of a specific pack"""
+        # Only show content if there was any modifications since
         if was_modified(self, request):
             self.bot.pack_data()
             pack = request.match_info["pack"]
@@ -56,7 +84,9 @@ class MomoServer(Cog):
                 ),
                 content_type="html",
                 headers={
-                    "Last-Modified": self.bot.last_modified.strftime("%a, %d %b %Y %H:%M:%S GMT")
+                    "Last-Modified": self.bot.last_modified.strftime(
+                        "%a, %d %b %Y %H:%M:%S GMT"
+                    )
                 }
             )
         else:
@@ -64,7 +94,9 @@ class MomoServer(Cog):
     
 
     @server.add_route(path="/cards/", method="GET", cog="MomoServer")
-    async def home(self, request):
+    async def home(self, request) -> web.Response:
+        """Page for the visualization of all cards"""
+        # Only show content if there was any modifications since
         if was_modified(self, request):
             self.bot.pack_data()
             return web.Response(
@@ -75,22 +107,9 @@ class MomoServer(Cog):
                 ),
                 content_type="html",
                 headers={
-                    "Last-Modified": self.bot.last_modified.strftime("%a, %d %b %Y %H:%M:%S GMT")
-                }
-            )
-        else:
-            return web.Response(status=304)
-
-
-    @server.add_route(path="/packs/", method="GET", cog="MomoServer")
-    async def home(self, request):
-        if was_modified(self, request):
-            self.bot.pack_data()
-            return web.Response(
-                body=env.get_template("packs.html").render(packs=self.bot.packs),
-                content_type="html",
-                headers={
-                    "Last-Modified": self.bot.last_modified.strftime("%a, %d %b %Y %H:%M:%S GMT")
+                    "Last-Modified": self.bot.last_modified.strftime(
+                        "%a, %d %b %Y %H:%M:%S GMT"
+                    )
                 }
             )
         else:
@@ -98,11 +117,60 @@ class MomoServer(Cog):
 
 
     @server.add_route(path="/users/", method="GET", cog="MomoServer")
-    async def home(self, request):
+    async def home(self, request) -> web.Response:
+        """Page for the selection of a user to visualize"""
+        # Only show content if there was any modifications since
+        if was_modified(self, request):
+            self.bot.pack_data()
+            full_collections = self.bot.get_full_collections()
+            return web.Response(
+                body=env.get_template("users.html").render(
+                    users=self.bot.get_sorted_users(),
+                    collections=full_collections
+                ),
+                content_type="html",
+                headers={
+                    "Last-Modified": self.bot.last_modified.strftime(
+                        "%a, %d %b %Y %H:%M:%S GMT"
+                    )
+                }
+            )
+        else:
+            return web.Response(status=304)
+
+
+    @server.add_route(path="/changelog/", method="GET", cog="MomoServer")
+    async def home(self, request) -> web.Response:
+        """Page for changelog"""
+        # Only show content if there was any modifications since
         if was_modified(self, request):
             self.bot.pack_data()
             return web.Response(
-                body=env.get_template("users.html").render(users=self.bot.users, collections=self.bot.get_full_collections()),
+                body=env.get_template("changelog.html").render(),
+                content_type="html",
+                headers={
+                    "Last-Modified": self.bot.last_modified.strftime(
+                        "%a, %d %b %Y %H:%M:%S GMT"
+                    )
+                }
+            )
+        else:
+            return web.Response(status=304)
+
+
+    @server.add_route(path="/users/{id}", method="GET", cog="MomoServer")
+    async def home(self, request) -> web.Response:
+        if was_modified(self, request):
+            self.bot.pack_data()
+            user = self.bot.users[int(request.match_info["id"])]
+            return web.Response(
+                body=env.get_template("profile.html").render(
+                    user=user,
+                    collections=self.bot.get_full_collections(),
+                    rarity_amounts=user.get_rarity_counts(),
+                    rarity_proportions=user.get_rarity_counts(proportion=True),
+                    config=self.bot.config
+                ),
                 content_type="html",
                 headers={
                     "Last-Modified": self.bot.last_modified.strftime("%a, %d %b %Y %H:%M:%S GMT")
@@ -112,12 +180,16 @@ class MomoServer(Cog):
             return web.Response(status=304)
 
 
-    @server.add_route(path="/changelog/", method="GET", cog="MomoServer")
-    async def home(self, request):
+    @server.add_route(path="/collections/{id}", method="GET", cog="MomoServer")
+    async def home(self, request) -> web.Response:
         if was_modified(self, request):
             self.bot.pack_data()
+            user = self.bot.users[int(request.match_info["id"])]
             return web.Response(
-                body=env.get_template("changelog.html").render(),
+                body=env.get_template("collection.html").render(
+                    user=user,
+                    cards=self.bot.get_full_collections()[user.id]
+                ),
                 content_type="html",
                 headers={
                     "Last-Modified": self.bot.last_modified.strftime("%a, %d %b %Y %H:%M:%S GMT")
@@ -128,7 +200,7 @@ class MomoServer(Cog):
 
 
     @server.add_route(path="/images/{file}", method="GET", cog="MomoServer")
-    async def home(self, request):
+    async def home(self, request) -> web.Response:
         filename = request.match_info["file"]
         try:
             extension = filename[filename.index(".")+1:]
@@ -154,7 +226,7 @@ class MomoServer(Cog):
 
     
     @server.add_route(path="/fonts/{file}", method="GET", cog="MomoServer")
-    async def home(self, request):
+    async def home(self, request) -> web.Response:
         filename = request.match_info["file"]
         try:
             extension = filename[filename.index(".")+1:]
@@ -180,7 +252,7 @@ class MomoServer(Cog):
 
     
     @server.add_route(path="/styles/{file}", method="GET", cog="MomoServer")
-    async def home(self, request):
+    async def home(self, request) -> web.Response:
         filename = request.match_info["file"]
         try:
             mod_time = os.path.getmtime("./lib/web/styles/" + filename)
@@ -205,7 +277,7 @@ class MomoServer(Cog):
 
     
     @server.add_route(path="/scripts/{file}", method="GET", cog="MomoServer")
-    async def home(self, request):
+    async def home(self, request) -> web.Response:
         filename = request.match_info["file"]
         try:
             mod_time = os.path.getmtime("./lib/web/scripts/" + filename)

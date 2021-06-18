@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="../images/momo.ico" type="image/x-icon">
+        <link rel="stylesheet" href="../styles/common.css" type="text/css">
+        <title>
+            {{ user.default_name }}
+        </title>
+        <style>
+            {% for rarity, proportion in rarity_proportions.items() %}
+            #{{ rarity }}
+            {
+                width: {{ 100*proportion }}%;
+                transition: background-color 300ms;
+            }
+            {% endfor %}
+
+            #completed-xp
+            {
+                width: {{ 100 * user.xp / (config["xp-base"] + config["xp-slope"]*(user.lvl-1)) }}%;
+                background-color: #{{ "%x"|format(user.color) }};
+            }
+        </style>
+    </head>
+
+
+    <body>
+        <header id="not-home-header">
+            <a id="logo" href="/">Momo</a>
+        </header>
+
+        <main>
+
+            <div class="title-row">
+                <a href="./"><img src="/images/back.png"></a> 
+                <span class="title">
+                    {{ user.default_name }}
+                </span>
+                    <img src="/images/back.png" class="no-display">
+            </div>
+
+            <div class="main-container">
+                
+                <div class="profile-panel">
+                    <span class="profile-title">
+                        Colección
+                    </span>
+
+                    <div class="collection-header">
+
+                        <a href="../collections/{{ user.id }}">
+                            <div id = "see-collection" >
+                                Ver colección
+                            </div>
+                        </a>
+
+                        <span>
+                            {{ collections[user.id]|length }} carta{{ "s" if collections[user.id]|length != 1 else "" }}
+                        </span>
+
+                    </div>
+
+                    <div id="user-top-cards">
+
+                    </div>
+
+                    <div class="rarity-bar">
+
+                        {% for i in (("c", "Comunes"),
+                                     ("r", "Raras"),
+                                     ("e", "Épicas"),
+                                     ("l", "Legendarias"),
+                                     ("m", "Míticas")) %}
+                        <div id="{{ i[0] }}" class="{{ i[0] }} tooltip">
+                            <div class="tooltip-text">
+                                {{ i[1] }}
+                                <br>
+                                {{ rarity_amounts[i[0]] }} ({{ (100 * rarity_proportions[i[0]])|round() }})%
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                        
+                    
+                    <span class="medium-title">
+                        Distribución de rarezas
+                    </span>
+                    
+                </div>
+                <div class="profile-panel">
+                    <span class="profile-title">
+                        General
+                    </span>
+
+                    <img id="profile-pic" src="{{ user.img }}">
+                    <span>
+                        {{ user.description }}
+                    </span>
+
+                    <div class="rarity-bar">
+                        <div id="completed-xp" class="tooltip">
+                            <div class="tooltip-text" id="wider">
+                                {{ user.xp }} / {{ (config["xp-base"] + config["xp-slope"]*(user.lvl-1)) }} XP
+                                <br>
+                                para nivel {{ user.lvl+1 }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <span class="medium-title">
+                        Nivel {{ user.lvl }}
+                    </span>
+                </div>
+                <div class="profile-panel">
+                    <span class="profile-title">
+                        Economía
+                    </span>
+                </div>
+
+                
+            </div>
+        </main>
+    </body>
+    <script> </script>
+</html>

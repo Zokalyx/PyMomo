@@ -18,7 +18,7 @@
 
 @keyframes fadeup
 {
-    from { top: 5em; }
+    from { top: 3em; }
     to { top: 0em; }
 }
 
@@ -418,6 +418,8 @@ a:hover
     cursor: default;
 }
 
+
+
 .form
 {
     display: flex;
@@ -432,6 +434,7 @@ a:hover
     background-color: rgba(0, 0, 0, 0);
     height: 1.7em;
     overflow: hidden;
+    
 
     transition: all 350ms ease-in-out;
 }
@@ -470,7 +473,8 @@ a:hover
     background-color: rgb(50, 50, 50);
     /* background-image: linear-gradient(rgb(70, 70, 70), rgb(50, 50, 50)); */
 
-    animation: fadeup 1s;
+    animation: fadein 1.5s, fadeup 1s;
+
     width: 20em;
     height: 10em;
 }
@@ -589,4 +593,135 @@ ul
 li
 {
     margin-bottom: 0.3em;
+}
+
+.profile-panel
+{
+    margin: 0.5em;
+    padding: 0.75em;
+    border-radius: 0.75em;
+    border-width: 0em;
+    border-color: white;
+    border-style: solid;
+    width: 25em;
+    height: 28em;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    position: relative;
+    top: 0em;
+
+    text-align: center;
+
+    background-color: rgb(50, 50, 50);
+    /* background-image: linear-gradient(rgb(70, 70, 70), rgb(50, 50, 50)); */
+
+    animation: fadeup 1s;
+}
+
+.profile-title
+{
+    font-size: 2em;
+    padding-bottom: 0.5em;
+}
+
+.collection-header
+{
+    font-size: 1.5em;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    width: 95%;
+}
+
+#see-collection
+{
+    top: 0em;
+    margin: 0em;
+    padding: 0.25em;
+    border-color: white;
+    border-radius: 0.3em;
+    border: solid;
+    border-width: 0em;
+}
+
+#see-collection:hover
+{
+    background-color: rgb(60, 60, 60);
+    border-width: 0.05em;
+    border-color: white;
+    padding: 0.20em;
+}
+
+.rarity-bar
+{
+    height: 5em;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    background-color:rgb(145, 145, 145)
+}
+
+.tooltip {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .tooltip .tooltip-text {
+    visibility: hidden;
+    background-color: rgb(85, 85, 85);
+    text-align: center;
+    border-radius: 0.3em;
+    padding: 0.2em;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -65%;
+    opacity: 0;
+
+    transition: opacity 300ms;
+  }
+
+  .tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgb(85, 85, 85) transparent transparent transparent;
+  }
+
+  .tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .medium-title
+  {
+      font-size: 1.5em;
+  }
+
+#user-top-cards
+{
+    height: 12em;
+}
+
+#profile-pic
+{
+    border-radius: 1em;
+    max-width: 10em;
+    max-height: 10em;
+}
+
+#wider
+{
+    width: 6em;
 }
