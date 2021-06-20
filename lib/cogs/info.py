@@ -57,8 +57,10 @@ class MomoInfo(Cog):
             content += f"`help {cogs[cog].name}`: {cogs[cog].description}\n"
         return title + prefix + content
 
+#-------------------------------COMMANDS--------------------------------------
+
     @command(usage="(<categoría>) o (<comando>)", aliases=["h"])
-    async def help(self, ctx, command_or_category=None):
+    async def help(self, ctx, command_or_category=None) -> None:
         """muestra ayuda sobre el bot y sus comandos"""
         # The command was passed with an argument
         if command_or_category is not None:

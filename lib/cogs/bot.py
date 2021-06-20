@@ -9,6 +9,8 @@ class MomoBot(Cog):
         self.name = "bot"
         self.aliases = ["bot", "b", "momo"]
 
+#-------------------------------COMMANDS--------------------------------------
+
     @command()
     async def save(self, ctx) -> None:
         """guarda todos los datos"""
@@ -26,6 +28,26 @@ class MomoBot(Cog):
         self.bot.unpack_data()
         self.bot.update_last_modified()
         await msg.edit(content="Cargando datos... ✅")
+
+    @command()
+    @is_owner()
+    async def read(self, ctx) -> None:
+        """carga todos los datos del archivo json"""
+        msg = await ctx.send("Cargando datos desde JSON... ")
+        self.bot.db.load_json()
+        self.bot.unpack_data()
+        self.bot.update_last_modified()
+        await msg.edit(content="Cargando datos desde JSON... ✅")
+
+    @command()
+    @is_owner()
+    async def write(self, ctx) -> None:
+        """guarda todos los datos al archivo json"""
+        msg = await ctx.send("Guardando datos en JSON... ")
+        self.bot.db.save_json()
+        self.bot.unpack_data()
+        self.bot.update_last_modified()
+        await msg.edit(content="Guardando datos en JSON... ✅")
 
     @command()
     async def exit(self, ctx) -> None:

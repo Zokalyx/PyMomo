@@ -1,0 +1,588 @@
+/* ----------------------------------GENERAL------------------------------- */
+
+:root
+{
+    --fade-in-time: 800ms;
+    --fade-up-length: 10vh;
+
+    --text-color: hsl(0, 0%, 70%);
+    --header-color: hsl(0, 0%, 30%); 
+    --base-color: hsl(0, 0%, 20%);
+    --base-highlight: hsl(0, 0%, 25%);
+    --background-color: hsl(0, 0%, 12%);
+
+    --c-hue: 210;
+    --r-hue: 110;
+    --e-hue: 270;
+    --l-hue: 320;
+    --m-hue: 180;
+
+    --c-color: hsla(var(--c-hue), 20%, 20%, 1);
+    --r-color: hsla(var(--r-hue), 25%, 21%, 1);
+    --e-color: hsla(var(--e-hue), 30%, 22%, 1);
+    --l-color: hsla(var(--l-hue), 35%, 23%, 1);
+    --m-color: hsla(var(--m-hue), 40%, 24%, 1);
+
+    --c-highlight: hsla(var(--c-hue), 40%, 25%, 1);
+    --r-highlight: hsla(var(--r-hue), 45%, 26%, 1);
+    --e-highlight: hsla(var(--e-hue), 50%, 27%, 1);
+    --l-highlight: hsla(var(--l-hue), 55%, 28%, 1);
+    --m-highlight: hsla(var(--m-hue), 60%, 29%, 1);
+
+    --c-light: hsla(var(--c-hue), 50%, 45%, 1);
+    --r-light: hsla(var(--r-hue), 55%, 46%, 1);
+    --e-light: hsla(var(--e-hue), 60%, 47%, 1);
+    --l-light: hsla(var(--l-hue), 65%, 48%, 1);
+    --m-light: hsla(var(--m-hue), 70%, 49%, 1);
+}
+
+@keyframes fadein
+{
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeup
+{
+    from { top: var(--fade-up-length); }
+    to { top: 0; }
+}
+
+*
+{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+header
+{
+    background-color: var(--header-color);
+
+    display: flex;
+    justify-content: flex-start;
+}
+
+body
+{
+    font-family: Raleway, sans-serif;
+    color: var(--text-color);
+
+    background-color: var(--background-color);
+    
+    display: flex;
+    flex-direction: column;
+}
+
+main
+{
+    animation: fadein var(--fade-in-time);
+}
+
+a
+{
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+/* LOGO */
+
+.logo
+{
+    font-size: 8vh;
+    font-family: 'Chakra Petch', sans-serif;
+    color: hsl(0, 0%, 70%);
+    
+    margin-left: 1.5vh;
+    
+    display: flex;
+    justify-content: right;
+}
+
+/* TITLE ROW */
+
+.title-row
+{
+    margin: 2vh;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+    position: relative;
+}
+
+.title-row img
+{
+    height: 7vh;
+}
+
+.main-title
+{
+    font-size: 6vh;
+}
+
+.title-side
+{
+    width: 60vh;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.title-side.left
+{  
+    justify-content: flex-start;
+}
+
+.title-side.right
+{
+    justify-content: flex-end;
+    align-content: baseline;
+    margin-right: 2vh;
+}
+
+/* FILTERS */
+
+.filter-form-wrapper
+{
+    width: 25vh;
+}
+
+.filter-form
+{
+    margin-right: 5vh;
+    margin-left: 5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: absolute;
+    padding: 1vh;
+    border-radius: 1vh;
+    top: 1.2vh;
+    background-color: hsla(0, 0%, 0%, 0);
+    height: 3vh;
+    overflow: hidden;
+    z-index: 10;
+    
+    transition: all 350ms ease-in-out;
+}
+
+.filter-form:hover
+{
+    background-color: hsl(0, 0%, 30%, 1);
+}
+
+/* https://www.w3schools.com/howto/howto_css_custom_checkbox.asp */
+
+/* Customize the label (the container) */
+.form-container {
+    font-size: 2.5vh;
+    display: block;
+    position: relative;
+    padding-left: 3vh;
+    padding-bottom: 1vh;
+    margin-bottom: 0;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.form-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    transition: background-color 1s;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0.2vh;
+    left: 0;
+    height: 2.5vh;
+    width: 2.5vh;
+    background-color: hsl(0, 0%, 100%);
+    border-radius: 0.75vh;
+    transition: background-color 500ms;
+}
+
+.checkbox-text
+{
+    top: -10vh;
+}
+
+/* On mouse-over, add a grey background color */
+.form-container:hover input ~ .checkmark {
+    background-color: rgb(167, 167, 167);
+}
+
+/* When the checkbox is checked, add a blue background */
+.form-container input:checked ~ .checkmark {
+    background-color: #0061b1;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.form-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.form-title
+{
+    font-size: 3.5vh;
+    
+    padding-bottom: 1vh;
+    
+    cursor: default;
+}
+
+#check-c input:checked ~ .checkmark {
+    background-color: var(--c-light);
+}
+#check-r input:checked ~ .checkmark {
+    background-color: var(--r-light);
+}
+#check-e input:checked ~ .checkmark {
+    background-color: var(--e-light);
+}
+#check-l input:checked ~ .checkmark {
+    background-color: var(--l-light);
+}
+#check-m input:checked ~ .checkmark {
+    background-color: var(--m-light);
+}
+
+#rarity-form:hover
+{
+    height: 24vh;
+}
+
+
+/* MAIN CONTENT */
+
+.main
+{
+    margin: 3vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.box
+{
+    color: var(--text-color);
+
+    background-color: var(--base-color);
+
+    border: solid;
+    border-radius: 2vh;
+    border-width: 0.2vh;
+    border-color: hsl(0, 0%, 20%);
+
+    margin: 1.2vh;
+    padding: 1.8vh;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    animation: fadein var(--fade-in-time), fadeup var(--fade-in-time);
+}
+
+.clickable-box
+{   
+    top: 0vh;
+ 
+    transition: top 300ms, background-color 300ms;
+}
+
+.clickable-box:hover
+{
+    top: -1vh;
+    border-color: hsl(0, 0%, 100%);
+    background-color: var(--base-highlight)
+}
+
+.box-title
+{
+    font-size: 5vh;
+}
+
+.box-header
+{
+    font-size: 3.4vh;
+}
+
+.box-text
+{
+    font-size: 2.7vh;
+}
+
+
+/* ------------------------------------------------------------------------ */
+
+
+/* HOME SPECIFIC */
+
+.home-box .box-image
+{
+    height: 19vh;
+}
+
+
+/* USER SPECIFIC */
+
+.user-box
+{
+    width: 44vh;
+    height: 22vh;
+}
+
+.user-title-row
+{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.user-title-row img
+{
+    max-width: 12vh;
+    border-radius: 1vh;
+}
+
+.user-name-and-desc
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.user-data
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.user-column
+{
+    font-size: 3vh;
+    
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* PROFILE SPECIFIC */
+
+.profile-box
+{
+    margin: 1.5vh;
+    padding: 2vh;
+    border-radius: 2vh;
+    width: 50vh;
+    height: 60vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-image
+{
+    height: 20vh;
+    border-radius: 2vh;
+}
+
+.profile-row
+{
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.profile-collection
+{
+    padding: 1vh;
+
+    border-radius: 1vh;
+}
+
+.profile-bar
+{
+    background-color: var(--header-color);
+
+    height: 10vh;
+    width: 100%;
+    margin-bottom: 1vh;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.profile-bar-wrapper
+{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.tooltip {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    background-color: var(--header-color);
+    text-align: center;
+    border-radius: 0.5vh;
+    padding: 0.4vh;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -70%;
+    opacity: 0;
+
+    transition: opacity 300ms;
+}
+
+.tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--header-color) transparent transparent transparent;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.level-tooltip-text
+{
+    width: 13vh;
+}
+
+
+/* CARDS SPECIFIC */
+.card-box
+{
+    padding: 0.5vh;
+}
+
+.card-box .box-title
+{
+    font-size: 4vh;
+}
+
+.card-box .box-text
+{
+    font-size: 2.5vh;
+}
+
+.card-box img
+{
+    height: 20vh;
+}
+
+.c {
+    background-color: var(--c-color);
+} .c:hover {
+    background-color: var(--c-highlight);
+}
+
+.r {
+    background-color: var(--r-color);
+} .r:hover {
+    background-color: var(--r-highlight);
+}
+
+.e {
+    background-color: var(--e-color);
+} .e:hover {
+    background-color: var(--e-highlight);
+}
+
+.l {
+    background-color: var(--l-color);
+} .l:hover {
+    background-color: var(--l-highlight);
+}
+
+.m {
+    background-color: var(--m-color);
+} .m:hover {
+    background-color: var(--m-highlight);
+}
+
+
+/* CHANGELOG SPECIFIC */
+
+.update-box
+{
+    padding: 0;
+    
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+.update-title
+{
+    font-size: 6vh;
+}
+
+.update-column
+{
+    width: 50vh;
+    padding: 3vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.update-column ul li
+{
+    text-align: left;
+    margin-top: 2vh;
+}
+
+.update-padding
+{
+    width: 15vh;
+}

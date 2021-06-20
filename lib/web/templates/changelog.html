@@ -3,44 +3,52 @@
 <html>
     <head>
         <meta charset="utf-8">
+
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
+
         <link rel="shortcut icon" href="/images/momo.ico" type="image/x-icon">
-        <link rel="stylesheet" href="/styles/common.css" type="text/css">
-        <title>
-            Cambios
-        </title>
+
+        <!--link rel="stylesheet" href="/styles/common.css" type="text/css"-->
+        <link rel="stylesheet" href="/styles/base.css" type="text/css">
+
+        <title>Cambios</title>
     </head>
 
 
     <body>
         <header>
-            <a id="logo" href="/">Momo</a>
+            <a class="logo" href="/">Momo</a>
         </header>
 
         <main>
             <div class="title-row">
-                <a href="../"><img src="/images/back.png"></a> 
-                <span class="title">
-                    Últimas actualizaciones
-                </span>
-                <a href="https://github.com/Zokalyx/PyMomo"><img src="/images/github.png"></a> 
+                <div class="title-side left">
+                    <a href="../">
+                        <img class="back" src="/images/back.png">
+                    </a>
+                </div>
+                <span class="main-title">Últimas actualizaciones</span>
+                <div class="title-side right">
+                    <a href="https://github.com/Zokalyx/PyMomo">
+                        <img src="/images/github.png">
+                    </a> 
+                </div>
             </div>
+            
+        <!------------------------------------------------------------------->
 
-            <div class="main-container">
-                <div class="update-block">
+            <div class="main">
+                <div class="box update-box">
                     <div class="update-column">
-                        <span class="element-title">
-                            PyMomo 0.8
-                        </span>
+                        <span class="update-title">PyMomo 0.8</span>
                         <br>
                         18.6.2021
                     </div>
-                    <div class="empty-update-column"></div>
+                    <div class="update-padding"></div>
                     <div class="update-column">
-                        <span class="update-title">
-                            Adiciones
-                        </span>
+                        <span class="box-title">Adiciones</span>
                         <ul>
                             <li>
                         Página para ver el perfil de usuarios específicos y para ver sus colecciones, incompleto por ahora
@@ -52,9 +60,7 @@
                     </div>
 
                     <div class="update-column">
-                        <span class="update-title">
-                            Cambios
-                        </span>
+                        <span class="box-title">Cambios</span>
                         <ul>
                             <li>
                         Archivos del proyecto parcialmente limpiados, reorganizados y tipados
@@ -63,19 +69,17 @@
                     </div>
                 </div>
 
-                <div class="update-block">
+        <!------------------------------------------------------------------->
+        
+                <div class="box update-box">
                     <div class="update-column">
-                        <span class="element-title">
-                            PyMomo 0.7
-                        </span>
+                        <span class="update-title">PyMomo 0.7</span>
                         <br>
                         17.6.2021
                     </div>
-                    <div class="empty-update-column"></div>
+                    <div class="update-padding"></div>
                     <div class="update-column">
-                        <span class="update-title">
-                            Adiciones
-                        </span>
+                        <span class="box-title">Adiciones</span>
                         <ul>
                             <li>
                         Clase base para colecciones y clase Collection
@@ -93,9 +97,7 @@
                     </div>
 
                     <div class="update-column">
-                        <span class="update-title">
-                            Cambios
-                        </span>
+                        <span class="box-title">Cambios</span>
                         <ul>
                             <li>
                         Pack (al igual que Collection) ahora hereda de BaseCardSet, haciendo más eficiente el código
@@ -104,19 +106,17 @@
                     </div>
                 </div>
 
-                <div class="update-block">
+        <!------------------------------------------------------------------->
+        
+                <div class="box update-box">
                     <div class="update-column">
-                        <span class="element-title">
-                            PyMomo 0.6
-                        </span>
+                        <span class="update-title">PyMomo 0.6</span>
                         <br>
                         16.6.2021
                     </div>
-                    <div class="empty-update-column"></div>
+                    <div class="update-padding"></div>
                     <div class="update-column">
-                        <span class="update-title">
-                            Adiciones
-                        </span>
+                        <span class="box-title">Adiciones</span>
                         <ul>
                             <li>
                         TTS (text to speech) en el canal de voz
@@ -134,9 +134,7 @@
                     </div>
 
                     <div class="update-column">
-                        <span class="update-title">
-                            Cambios
-                        </span>
+                        <span class="box-title">Cambios</span>
                         <ul>
                             <li>
                         El comando play ahora reproduce audio directamente
@@ -149,19 +147,17 @@
                     </div>
                 </div>
 
-                <div class="update-block">
+        <!------------------------------------------------------------------->
+        
+                <div class="box update-box">
                     <div class="update-column">
-                        <span class="element-title">
-                            PyMomo 0.5
-                        </span>
+                        <span class="update-title">PyMomo 0.5</span>
                         <br>
                         15.6.2021
                     </div>
-                    <div class="empty-update-column"></div>
+                    <div class="update-padding"></div>
                     <div class="update-column">
-                        <span class="update-title">
-                            Adiciones
-                        </span>
+                        <span class="box-title">Adiciones</span>
                         <ul>
                             <li>
                         Visualización de cartas en la página web
@@ -176,9 +172,7 @@
                     </div>
 
                     <div class="update-column">
-                        <span class="update-title">
-                            Cambios
-                        </span>
+                        <span class="box-title">Cambios</span>
                         <ul>
                             <li>
                         Botones e imágenes achicados en la página web
@@ -187,19 +181,17 @@
                     </div>
                 </div>
 
-                <div class="update-block">
+        <!------------------------------------------------------------------->
+        
+                <div class="box update-box">
                     <div class="update-column">
-                        <span class="element-title">
-                            PyMomo 0.4
-                        </span>
+                        <span class="update-title">PyMomo 0.4</span>
                         <br>
                         14.6.2021
                     </div>
-                    <div class="empty-update-column"></div>
+                    <div class="update-padding"></div>
                     <div class="update-column">
-                        <span class="update-title">
-                            Adiciones
-                        </span>
+                        <span class="box-title">Adiciones</span>
                         <ul>
                             <li>
                         Contenido básico para la página web (página de portada y selección de packs)
@@ -211,9 +203,7 @@
                     </div>
 
                     <div class="update-column">
-                        <span class="update-title">
-                            Cambios
-                        </span>
+                        <span class="box-title">Cambios</span>
                         <ul>
                             <li>
                         Simplificación de sistema de archivos estáticos para la página web
@@ -225,19 +215,17 @@
                     </div>
                 </div>
 
-                <div class="update-block">
+        <!------------------------------------------------------------------->
+        
+                <div class="box update-box">
                     <div class="update-column">
-                        <span class="element-title">
-                            PyMomo 0.3
-                        </span>
+                        <span class="update-title">PyMomo 0.3</span>
                         <br>
                         13.6.2021
                     </div>
-                    <div class="empty-update-column"></div>
+                    <div class="update-padding"></div>
                     <div class="update-column">
-                        <span class="update-title">
-                            Adiciones
-                        </span>
+                        <span class="box-title">Adiciones</span>
                         <ul>
                             <li>
                         Creación de server web (http) funcional, sin contenido por ahora
@@ -252,9 +240,7 @@
                     </div>
 
                     <div class="update-column">
-                        <span class="update-title">
-                            Cambios
-                        </span>
+                        <span class="box-title">Cambios</span>
                         <ul>
                             <li>
                         Separación de comandos en grupos (cogs) 
@@ -263,19 +249,17 @@
                     </div>
                 </div>
 
-                <div class="update-block">
+        <!------------------------------------------------------------------->
+        
+                <div class="box update-box">
                     <div class="update-column">
-                        <span class="element-title">
-                            PyMomo 0.2
-                        </span>
+                        <span class="update-title">PyMomo 0.2</span>
                         <br>
                         12.6.2021
                     </div>
-                    <div class="empty-update-column"></div>
+                    <div class="update-padding"></div>
                     <div class="update-column">
-                        <span class="update-title">
-                            Adiciones
-                        </span>
+                        <span class="box-title">Adiciones</span>
                         <ul>
                             <li>
                         Estructura básica de las carpetas y archivos
@@ -290,9 +274,7 @@
                     </div>
 
                     <div class="update-column">
-                        <span class="update-title">
-                            Cambios
-                        </span>
+                        <span class="box-title">Cambios</span>
                         <ul>
                             <li>
                         Archivo principal (index.py) simplificado
@@ -301,19 +283,17 @@
                     </div>
                 </div>
 
-                <div class="update-block">
+        <!------------------------------------------------------------------->
+        
+                <div class="box update-box">
                     <div class="update-column">
-                        <span class="element-title">
-                            PyMomo 0.1
-                        </span>
+                        <span class="update-title">PyMomo 0.1</span>
                         <br>
                         10.6.2021
                     </div>
-                    <div class="empty-update-column"></div>
+                    <div class="update-padding"></div>
                     <div class="update-column">
-                        <span class="update-title">
-                            Adiciones
-                        </span>
+                        <span class="box-title">Adiciones</span>
                         <ul>
                             <li>
                         Creación de PyMomo: Momo reescrito desde 0, utilizando Python
@@ -328,9 +308,7 @@
                     </div>
 
                     <div class="update-column">
-                        <span class="update-title">
-                            Cambios
-                        </span>
+                        <span class="box-title">Cambios</span>
                         <ul>
                             <li>
                         Removed Herobrine
@@ -340,10 +318,6 @@
                 </div>
             </div>
         </main>
-
-        <!--<footer>
-            Holi
-        </footer>-->
     </body>
     <script> </script>
 </html>

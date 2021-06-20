@@ -1,15 +1,17 @@
-from discord import PCMAudio, FFmpegOpusAudio, FFmpegPCMAudio, FFmpegAudio, PCMVolumeTransformer
-from discord.ext.commands import Cog, command, errors
 import asyncio
-from io import BytesIO
-from discord.ext.commands.core import is_owner
-from discord.player import FFmpegPCMAudio
-from gtts import gTTS
 import os
+import re
+
+from gtts import gTTS
 import dotenv
 import openai
-import re
 import youtube_dl
+
+from discord import FFmpegOpusAudio, FFmpegPCMAudio, PCMVolumeTransformer
+from discord.ext.commands import Cog, command, errors
+from discord.ext.commands.core import is_owner
+from discord.player import FFmpegPCMAudio
+
 dotenv.load_dotenv("./.env")
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -31,7 +33,8 @@ ytdl_format_options = {
     'quiet': True,
     'no_warnings': True,
     'default_search': 'auto',
-    'source_address': '0.0.0.0' # bind to ipv4 since ipv6 addresses cause issues sometimes
+    # bind to ipv4 since ipv6 addresses cause issues sometimes
+    'source_address': '0.0.0.0'
 }
 
 ffmpeg_options = {
@@ -53,7 +56,10 @@ class YTDLSource(PCMVolumeTransformer):
     @classmethod
     async def from_url(cls, url, *, loop=None, stream=False):
         loop = loop or asyncio.get_event_loop()
-        data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=not stream))
+        data = await loop.run_in_executor(
+            None,
+            lambda: ytdl.extract_info(url, download=not stream)
+        )
 
         if 'entries' in data:
             # take first item from a playlist
@@ -67,10 +73,6 @@ class YTDLSource(PCMVolumeTransformer):
 # https://github.com/Rapptz/discord.py/blob/master/examples/basic_voice.py
 
 
-
-
-
-
 class MomoVoice(Cog):
     """comandos relacionados al chat de voz"""
 
@@ -82,13 +84,15 @@ class MomoVoice(Cog):
         self.conversation = ""
         self.max_convo_length = 120
 
+# -------------------------------COMMANDS-------------------------------------
 
     @command()
-    async def join(self, ctx):
+    async def join(self, ctx) -> bool:
+        # Returns if join was successful
         """Se une al canal de voz donde está el usuario"""
         voice = ctx.author.voice
         if voice and voice.channel:
-            if self.connection: 
+            if self.connection:
                 if self.connection.channel != voice.channel:
                     await self.connection.move_to(voice.channel)
             else:
@@ -100,9 +104,9 @@ class MomoVoice(Cog):
                 await ctx.send("Unite a un canal de voz primero!")
             return False
 
-
     @command(usage="<texto>")
-    async def say(self, ctx, *, words=None):
+    async def say(self, ctx, *, words=None) -> bool:
+        # Returns if say was successful
         """Dice lo que escribas a través de voz"""
         if words is None:
             await ctx.send("Uso correcto: `say <texto>`")
@@ -116,10 +120,10 @@ class MomoVoice(Cog):
         else:
             return False
 
-
     @command(usage="(<link>)", aliases=["p"])
-    async def play(self, ctx, link=None):
-        """Reproduce o despausa el contenido del link de Youtube en directo, sin predescargar"""
+    async def play(self, ctx, link=None) -> None:
+        """Reproduce o despausa el contenido del link de Youtube en directo,
+        sin predescargar"""
         if self.connection and self.connection.is_paused():
             self.connection.resume()
             return
@@ -128,15 +132,21 @@ class MomoVoice(Cog):
             return
         if await self.join(ctx):
             async with ctx.typing():
-                player = await YTDLSource.from_url(link, loop=self.bot.loop, stream=True)
-                self.connection.play(player, after=lambda e: print(f'Error: {e}') if e else None)
-
+                player = await YTDLSource.from_url(
+                    link,
+                    loop=self.bot.loop,
+                    stream=True
+                )
+                self.connection.play(
+                    player,
+                    after=lambda e: print(f'Error: {e}') if e else None
+                )
             await ctx.send(f'Reproduciendo: {player.title}')
-
 
     @command(usage="<link>")
     async def stream(self, ctx, link=None):
-        """Reproduce el contenido del link de Youtube luego de predescargar el audio (mayor calidad)"""
+        """Reproduce el contenido del link de Youtube luego de
+        predescargar el audio (mayor calidad) - prefer play over this"""
         if self.connection and self.connection.is_paused():
             self.connection.resume()
             return
@@ -150,11 +160,11 @@ class MomoVoice(Cog):
                     if song_there:
                         os.remove("./song.mp3")
                 except PermissionError:
-                    await ctx.send("Esperá a que termine este audio o frenalo con `stop`")
+                    await ctx.send(
+                        "Esperá a que termine este audio o frenalo con `stop`"
+                    )
                     return
-
                 # loading = await ctx.send("Cargando...")
-
                 ydl_opts = {
                     'format': 'bestaudio/best',
                     'postprocessors': [{
@@ -175,38 +185,35 @@ class MomoVoice(Cog):
         else:
             return False
 
-
     @command()
-    async def pause(self, ctx):
+    async def pause(self, ctx) -> None:
         """Frena la reproducción de audio temporalmente"""
         if self.connection:
             self.connection.pause()
-            
 
     @command()
-    async def stop(self, ctx):
+    async def stop(self, ctx) -> None:
         """Frena la reproducción de audio"""
         if self.connection:
             self.connection.stop()
 
-
     @command()
-    async def reset(self, ctx):
+    async def reset(self, ctx) -> None:
         """Reestablece la conversación con Momo"""
         self.conversation = ""
         await ctx.send("Conversación olvidada")
 
-
     @command()
     @is_owner()
-    async def momo(self, ctx, *, words=None):
+    async def momo(self, ctx, *, words=None) -> None:
         """Responde a lo que digas a través de voz o texto"""
         if words is not None:
-            voice = ctx.author.voice
             async with ctx.typing():
                 self.conversation += "\n" + words
                 if len(self.conversation) > self.max_convo_length:
-                    self.conversation = self.conversation[-self.max_convo_length:]
+                    self.conversation = self.conversation[
+                        -self.max_convo_length:
+                    ]
                 response = openai.Completion.create(
                     engine="davinci",
                     prompt=self.conversation,
@@ -215,7 +222,7 @@ class MomoVoice(Cog):
                     top_p=1,
                     frequency_penalty=0.0,
                     presence_penalty=0.6,
-                    
+
                 )
                 restext = response["choices"][0]["text"]
                 self.conversation += "\n" + restext
@@ -225,22 +232,23 @@ class MomoVoice(Cog):
         else:
             await ctx.send("Uso correcto: `momo <texto>`")
 
+    @command()
+    async def leave(self, ctx) -> None:
+        """Sale del canal de voz"""
+        if self.connection:
+            await self.connection.disconnect()
+            self.connection = None
 
     """
     @command()
     async def play2(self, ctx, *, words="Hi"):
         \"""Se une a un chat de voz y pone musica\"""
         if not self.connection:
-            self.connection = await self.bot.get_channel(778978050926444548).connect()
+            self.connection = await self.bot.get_channel(
+                778978050926444548
+            ).connect()
             mp3 = BytesIO()
             tts = gTTS(words, lang="en")
             tts.write_to_fp(mp3)
             self.connection.play(FFmpegOpusAudio(mp3))
     """
-
-    @command()
-    async def leave(self, ctx):
-        """Sale del canal de voz"""
-        if self.connection:
-            await self.connection.disconnect()
-            self.connection = None

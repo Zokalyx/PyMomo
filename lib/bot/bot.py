@@ -129,6 +129,8 @@ class Momo(commands.Bot):
         print("Connecting to Discord... ", end="")
         super().run(*args, **kwargs)
 
+#-------------------------------EVENTS----------------------------------------
+
     async def on_ready(self) -> None:
         """Event listener for when the bot is connected and ready"""
         # Send a message to default channel

@@ -3,123 +3,88 @@
 <html>
     <head>
         <meta charset="utf-8">
+
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
+
         <link rel="shortcut icon" href="/images/momo.ico" type="image/x-icon">
-        <link rel="stylesheet" href="/styles/common.css" type="text/css">
+        
         <script src="/scripts/users.js"></script>
+
+        <link rel="stylesheet" href="/styles/base.css" type="text/css">
         <style>
+            {% for id, user in users %}
+            #user-{{ id }}:hover
+            {
+                border-color: #{{ "%x"|format(user.color) }};
+            }
+            {% endfor %}
+
             #order-form:hover
             {
-                height: 7em;
+                height: 16vh;
             }
-            {% for id, user in users %}
-                #user-{{ id }}
-                {
-                    border-color: #{{ "%x"|format(user.color) }};
-                }
-            {% endfor %}
         </style>
-        <title>
-            Usuarios
-        </title>
+
+        <title>Usuarios</title>
     </head>
 
 
     <body>
         <header>
-            <a id="logo" href="/">Momo</a>
+            <a class="logo" href="/">Momo</a>
         </header>
 
         <main>
             <div class="title-row">
-                <div id="left-panel">
-                    <div id="back">
-                        <a href="../">
-                            <img src="/images/back.png">
-                        </a>
-                    </div>
-                    <!--div id="rarity-filter">
-                        <label class="container">
-                            <span class="checkbox-text">Común</span>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        
-                        <label class="container">
-                            <span class="checkbox-text">Rara</span>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        
-                        <label class="container">
-                            <span class="checkbox-text">Épica</span>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        
-                        <label class="container">
-                            <span class="checkbox-text">Legendaria</span>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="container">
-                            <span class="checkbox-text">Mítica</span>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        <!--img src="../images/back.png" class="no-display"-->
-                        
-                    <!--/div-->
+                <div class="title-side left">
+                    <a href="../">
+                        <img class="back" src="/images/back.png">
+                    </a>
                 </div>
-                <span class="title">
-                    Usuarios
-                </span>
-                <div id="right-panel">
-                    <div class="container-for-form">
-                        <div class="form" id="order-form">
-                            <span class="form-title">Orden</span>
-                            <label class="container" id="order-cards">
-                                <span class="checkbox-text">Cartas</span>
-                                <input type="radio" name="order" checked>
-                                <span class="checkmark"></span>
-                            </label>
-                            <label class="container" id="order-balance">
-                                <span class="checkbox-text">Balance</span>
-                                <input type="radio" name="order">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label class="container" id="order-level">
-                                <span class="checkbox-text">Nivel</span>
-                                <input type="radio" name="order">
-                                <span class="checkmark"></span>
-                            </label>
-                        </div>
+                <span class="main-title">Usuarios</span>
+                <div class="title-side right">
+                    <div class="filter-form" id="order-form">
+                        <span class="form-title">Orden</span>
+                        <label class="form-container" id="order-cards">
+                            <span class="checkbox-text">Cartas</span>
+                            <input type="radio" name="order" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="form-container" id="order-balance">
+                            <span class="checkbox-text">Balance</span>
+                            <input type="radio" name="order">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="form-container" id="order-level">
+                            <span class="checkbox-text">Nivel</span>
+                            <input type="radio" name="order">
+                            <span class="checkmark"></span>
+                        </label>
                     </div>
                 </div>
             </div>
 
-            <div class="main-container">
+            <div class="main">
                 {% for id, user in users %}
                 <a href="/users/{{ id }}"
-                   class="user-element"
+                   class="box clickable-box user-box"
                    id="user-{{ id }}"
                    data-balance="{{ user.bal }}"
                    data-cards="{{ collections[id]|length }}"
                    data-level="{{ user.lvl }}"
                 >
                     <div class="user-title-row">
-                        <div class="user-name-desc">
-                            <span class="user-title">{{ user.default_name }}</span>
-                            <span>{{ user.description }}</span>
+                        <div class="user-name-and-desc">
+                            <span class="box-title">{{ user.default_name }}</span>
+                            <span class="box-text">{{ user.description }}</span>
                         </div>
 
                         <img src="{{ user.img }}">
                     </div>
 
                     <div class="user-data">
-
                         <div class="user-column">
                             <span class="user-column-title">Cartas</span>
                             {{ collections[id]|length }}
@@ -134,16 +99,11 @@
                             <span class="user-column-title">Nivel</span>
                             {{ user.lvl }}
                         </div>
-
                     </div>
                 </a>
                 {% endfor %}
             </div>
         </main>
-
-        <!--<footer>
-            Holi
-        </footer>-->
     </body>
     <script> </script>
 </html>

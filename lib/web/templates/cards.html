@@ -3,21 +3,28 @@
 <html>
     <head>
         <meta charset="utf-8">
+
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
-        <link rel="shortcut icon" href="/images/momo.ico" type="image/x-icon">
-        <link rel="stylesheet" href="/styles/common.css" type="text/css">
+        <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
+        
         <script src="/scripts/cards.js"></script>
+        
+        <link rel="shortcut icon" href="/images/momo.ico" type="image/x-icon">
+        
+        <link rel="stylesheet" href="/styles/base.css" type="text/css">
+
         <style>
             #user-form:hover
             {
-                background-color: rgb(70, 70, 70);
-                height: {{ 4.1 + 1.6*users|length }}em;
+                height: {{ 8.5 + 4*users|length }}vh;
             }
+
             #order-form:hover
             {
-                height: 5.3em;
+                height: 12vh;
             }
+
             {% for id, user in users.items() %}
             #check-{{ id }} input:checked ~ .checkmark
             {
@@ -25,72 +32,36 @@
             }
             {% endfor %}
         </style>
-        <title>
-            Pack {{ pack }}
-        </title>
+
+        <title>Pack {{ pack }}</title>
     </head>
 
 
     <body>
         <header>
-            <a id="logo" href="/">Momo</a>
+            <a class="logo" href="/">Momo</a>
         </header>
 
         <main>
             <div class="title-row">
-                <div id="left-panel">
-                    <div id="back">
-                        <a href="../">
-                            <img src="/images/back.png">
-                        </a>
-                    </div>
-                    <!--div id="rarity-filter">
-                        <label class="container">
-                            <span class="checkbox-text">Común</span>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        
-                        <label class="container">
-                            <span class="checkbox-text">Rara</span>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        
-                        <label class="container">
-                            <span class="checkbox-text">Épica</span>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        
-                        <label class="container">
-                            <span class="checkbox-text">Legendaria</span>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-
-                        <label class="container">
-                            <span class="checkbox-text">Mítica</span>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                        <!--img src="../images/back.png" class="no-display"-->
-                        
-                    <!--/div-->
+                <div class="title-side left">
+                    <a href="../">
+                        <img src="/images/back.png">
+                    </a>
                 </div>
-                <span class="title">
-                    Pack {{ pack }}
-                </span>
-                <div id="right-panel">
-                    <div class="container-for-form">
-                        <div class="form" id="order-form">
+                <span class="main-title">Pack {{ pack }}</span>
+                <div class="title-side right">
+                    <div class="filter-form-wrapper">
+                        <div class="filter-form" id="order-form">
                             <span class="form-title">Orden</span>
-                            <label class="container" id="order-number">
+
+                            <label class="form-container" id="order-number">
                                 <span class="checkbox-text">Número</span>
                                 <input type="radio" name="order" checked>
                                 <span class="checkmark"></span>
                             </label>
-                            <label class="container" id="order-value">
+
+                            <label class="form-container" id="order-value">
                                 <span class="checkbox-text">Valor</span>
                                 <input type="radio" name="order">
                                 <span class="checkmark"></span>
@@ -98,16 +69,18 @@
                         </div>
                     </div>
 
-                    <div class="container-for-form">
-                        <div class="form" id="user-form">
+                    <div class="filter-form-wrapper">
+                        <div class="filter-form" id="user-form">
                             <span class="form-title">Dueño</span>
-                            <label class="container" id="check-0">
+
+                            <label class="form-container" id="check-0">
                                 <span class="checkbox-text">Sin dueño</span>
                                 <input type="checkbox">
                                 <span class="checkmark"></span>
                             </label>
+
                             {% for id, user in users.items() %}
-                            <label class="container" id="check-{{ user.id }}">
+                            <label class="form-container" id="check-{{ user.id }}">
                                 <span class="checkbox-text">{{ user.default_name }}</span>
                                 <input type="checkbox">
                                 <span class="checkmark"></span>
@@ -116,34 +89,35 @@
                         </div>
                     </div>
 
-                    <div class="container-for-form">
-                        <div class="form">
+                    <div class="filter-form-wrapper">
+                        <div class="filter-form" id="rarity-form">
                             <span class="form-title">Rareza</span>
-                            <label class="container" id="check-c">
+
+                            <label class="form-container" id="check-c">
                                 <span class="checkbox-text">Común</span>
                                 <input type="checkbox">
                                 <span class="checkmark"></span>
                             </label>
                             
-                            <label class="container" id="check-r">
+                            <label class="form-container" id="check-r">
                                 <span class="checkbox-text">Rara</span>
                                 <input type="checkbox">
                                 <span class="checkmark"></span>
                             </label>
                             
-                            <label class="container" id="check-e">
+                            <label class="form-container" id="check-e">
                                 <span class="checkbox-text">Épica</span>
                                 <input type="checkbox">
                                 <span class="checkmark"></span>
                             </label>
                             
-                            <label class="container" id="check-l">
+                            <label class="form-container" id="check-l">
                                 <span class="checkbox-text">Legendaria</span>
                                 <input type="checkbox">
                                 <span class="checkmark"></span>
                             </label>
-    
-                            <label class="container" id="check-m">
+
+                            <label class="form-container" id="check-m">
                                 <span class="checkbox-text">Mítica</span>
                                 <input type="checkbox">
                                 <span class="checkmark"></span>
@@ -153,20 +127,20 @@
                 </div>
             </div>
 
-            <div class="main-container">
+            <div class="main">
                 {% for card in cards|sort(attribute="id") %}
                 <a href="/packs/{{ pack }}/{{ loop.index }}"
-                   class="card-element {{ card.rarity }}"
-                   data-id="{{ card.id }}"
+                    class="box clickable-box card-box {{ card.rarity }}"
+                    data-id="{{ card.id }}"
                     data-rarity="{{ card.rarity }}""
                     data-owner="{{ users[card.owner].id if card.owner else 0 }}"
                     data-value="{{ card.value * card.mult }}"   
                 >
-                    <span class="card-title">
+                    <span class="box-title">
                         {{ card.id + 1}}
                     </span>
-                    <img class="card-image" src="{{ card.link }}">
-                    <p class="card-paragraph">
+                    <img class="box-image" src="{{ card.link }}">
+                    <p class="box-text">
                         {{ "Dueño: " + users[card.owner].default_name if card.owner else "Sin dueño" }}
                         <br>
                         ${{ card.value }} &nbsp; &nbsp; &nbsp; x{{ card.mult }}
@@ -175,10 +149,6 @@
                 {% endfor %}
             </div>
         </main>
-
-        <!--<footer>
-            Holi
-        </footer>-->
     </body>
     <script> </script>
 </html>

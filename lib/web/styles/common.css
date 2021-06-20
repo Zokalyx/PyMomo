@@ -1,8 +1,8 @@
-@font-face {
+/*@font-face {
     font-family: simplifica;
     src: url(../fonts/simplifica.woff);
 }
-
+*/
 /*
 @font-face {
     font-family: raleway;
@@ -24,7 +24,7 @@
 
 body
 {  
-    font-family: Raleway;
+    font-family: Raleway, sans-serif;
 
     display: flex;
     flex-direction: column;
@@ -38,7 +38,7 @@ body
 
 header
 {
-    font-family: simplifica;
+    font-family: 'Chakra Petch', sans-serif;
     font-size: 4em;
 
     background-color: rgb(70, 70, 70);
@@ -120,6 +120,14 @@ a:hover
     animation: fadeup 1s;
 }
 
+.element:hover
+{
+    top: -0.5em;
+    background-color: rgb(60, 60, 60);
+    border-width: 0.05em;
+    padding: 0.95em;
+}
+
 .card-element
 {
     margin: 0.5em;
@@ -148,14 +156,6 @@ a:hover
     background-color: rgb(50, 50, 50);
 
     animation: fadein 1.5s, fadeup 1s;
-}
-
-.element:hover
-{
-    top: -0.5em;
-    background-color: rgb(60, 60, 60);
-    border-width: 0.05em;
-    padding: 0.95em;
 }
 
 .card-element:hover
@@ -426,7 +426,7 @@ a:hover
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    position:absolute;
+    position: absolute;
     padding: 0.5em;
     border-radius: 0.5em;
     top: 0.5em;

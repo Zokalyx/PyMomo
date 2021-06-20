@@ -3,19 +3,21 @@
 <html>
     <head>
         <meta charset="utf-8">
+
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
+
         <link rel="shortcut icon" href="../images/momo.ico" type="image/x-icon">
-        <link rel="stylesheet" href="../styles/common.css" type="text/css">
-        <title>
-            {{ user.default_name }}
-        </title>
+
+        <link rel="stylesheet" href="../styles/base.css" type="text/css">
+
         <style>
             {% for rarity, proportion in rarity_proportions.items() %}
-            #{{ rarity }}
+            .{{ rarity }}
             {
                 width: {{ 100*proportion }}%;
-                transition: background-color 300ms;
+                transition: all 300ms;
             }
             {% endfor %}
 
@@ -25,104 +27,92 @@
                 background-color: #{{ "%x"|format(user.color) }};
             }
         </style>
+
+        <title>{{ user.default_name }}</title>
     </head>
 
 
     <body>
-        <header id="not-home-header">
-            <a id="logo" href="/">Momo</a>
+        <header>
+            <a class="logo" href="/">Momo</a>
         </header>
 
         <main>
-
             <div class="title-row">
-                <a href="./"><img src="/images/back.png"></a> 
-                <span class="title">
-                    {{ user.default_name }}
-                </span>
-                    <img src="/images/back.png" class="no-display">
+                <div class="title-side left">
+                    <a href="./">
+                        <img class="back" src="/images/back.png">
+                    </a>
+                </div>
+                <span class="main-title">{{ user.default_name }}</span>
+                <div class="title-side right"></div>
             </div>
 
-            <div class="main-container">
-                
-                <div class="profile-panel">
-                    <span class="profile-title">
-                        Colección
-                    </span>
+            <div class="main">
+                <div class="box profile-box">
+                    <span class="box-title">Colección</span>
 
-                    <div class="collection-header">
-
+                    <div class="profile-row">
                         <a href="../collections/{{ user.id }}">
-                            <div id = "see-collection" >
-                                Ver colección
-                            </div>
+                            <div class="box-header profile-collection clickable-box">Ver colección</div>
                         </a>
-
-                        <span>
-                            {{ collections[user.id]|length }} carta{{ "s" if collections[user.id]|length != 1 else "" }}
+                        <span class="box-header">
+                    {{ collections[user.id]|length }} carta{{ "s" if collections[user.id]|length != 1 else "" }}
                         </span>
-
                     </div>
 
-                    <div id="user-top-cards">
-
+                    <div class="profile-top-cards">
+                        TOP CARTAS (EN PROGRESO)
+                        <br>
+                        VALOR TOTAL (EN PROGRESO)
                     </div>
 
-                    <div class="rarity-bar">
-
-                        {% for i in (("c", "Comunes"),
-                                     ("r", "Raras"),
-                                     ("e", "Épicas"),
-                                     ("l", "Legendarias"),
-                                     ("m", "Míticas")) %}
-                        <div id="{{ i[0] }}" class="{{ i[0] }} tooltip">
-                            <div class="tooltip-text">
-                                {{ i[1] }}
-                                <br>
-                                {{ rarity_amounts[i[0]] }} ({{ (100 * rarity_proportions[i[0]])|round() }})%
+                    <div class="profile-bar-wrapper">
+                        <div class="profile-bar">
+                            {% for i in (("c", "Comunes"),
+                                        ("r", "Raras"),
+                                        ("e", "Épicas"),
+                                        ("l", "Legendarias"),
+                                        ("m", "Míticas")) %}
+                            <div id="{{ i[0] }}" class="{{ i[0] }} tooltip">
+                                <div class="tooltip-text">
+                                    {{ i[1] }}
+                                    <br>
+                                    {{ rarity_amounts[i[0]] }} ({{ (100 * rarity_proportions[i[0]])|round()|int() }}%)
+                                </div>
                             </div>
-                        </div>
-                        {% endfor %}
-
-                    </div>
+                            {% endfor %}
+                        </div> 
                         
-                    
-                    <span class="medium-title">
-                        Distribución de rarezas
-                    </span>
-                    
+                        <span class="box-header">Distribución de rarezas</span>
+                    </div>
                 </div>
-                <div class="profile-panel">
-                    <span class="profile-title">
-                        General
-                    </span>
 
-                    <img id="profile-pic" src="{{ user.img }}">
-                    <span>
-                        {{ user.description }}
-                    </span>
+                <div class="box profile-box">
+                    <span class="box-title">General</span>
 
-                    <div class="rarity-bar">
-                        <div id="completed-xp" class="tooltip">
-                            <div class="tooltip-text" id="wider">
-                                {{ user.xp }} / {{ (config["xp-base"] + config["xp-slope"]*(user.lvl-1)) }} XP
-                                <br>
-                                para nivel {{ user.lvl+1 }}
+                    <img class="profile-image" src="{{ user.img }}">
+
+                    <span class="box-text">{{ user.description }}</span>
+
+                    <div class="profile-bar-wrapper">
+                        <div class="profile-bar">
+                            <div id="completed-xp" class="tooltip">
+                                <div class="tooltip-text level-tooltip-text">
+                                    {{ user.xp }} / {{ (config["xp-base"] + config["xp-slope"]*(user.lvl-1)) }} XP
+                                    <br>
+                                    para nivel {{ user.lvl+1 }}
+                                </div>
                             </div>
                         </div>
+
+                        <span class="box-header">Nivel {{ user.lvl }}</span>
                     </div>
-
-                    <span class="medium-title">
-                        Nivel {{ user.lvl }}
-                    </span>
-                </div>
-                <div class="profile-panel">
-                    <span class="profile-title">
-                        Economía
-                    </span>
                 </div>
 
-                
+                <div class="box profile-box">
+                    <span class="box-title">Economía</span>
+                </div> 
             </div>
         </main>
     </body>

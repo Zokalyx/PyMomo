@@ -3,58 +3,54 @@
 <html>
     <head>
         <meta charset="utf-8">
+
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
+        
         <link rel="shortcut icon" href="/images/momo.ico" type="image/x-icon">
-        <link rel="stylesheet" href="/styles/common.css" type="text/css">
-        <title>
-            Lista de packs
-        </title>
+
+        <link rel="stylesheet" href="/styles/base.css" type="text/css">
+        
+        <title>Lista de packs</title>
     </head>
 
 
     <body>
         <header>
-            <a id="logo" href="/">Momo</a>
+            <a class="logo" href="/">Momo</a>
         </header>
 
         <main>
             <div class="title-row">
-                <a href="../"><img src="/images/back.png"></a> 
-                <span class="title">
-                    Elegí un pack para visualizar
-                </span>
-                    <img src="/images/back.png" class="no-display">
+                <div class="title-side left">
+                    <a href="../">
+                        <img class="back" src="/images/back.png">
+                    </a>
+                </div>
+                <span class="main-title">Packs</span>
+                <div class="title-side right"></div>
             </div>
 
-            <div class="main-container">
-                <a href="/cards/" class="element">
-                    <span class="element-title">
+            <div class="main">
+                <a href="/cards/" class="box clickable-box">
+                    <span class="box-title">
                         Todas las<br>cartas
                     </span>
-                <!--<img class="front-page-image" src="../images/cards.png">
-                <p class="front-page-paragraph">
-                    Explorá cartas mediante el uso de filtros
-                </p>-->
                 </a>
-        
 
                 {% for pack in packs|sort %}
-                <a href="./{{ pack }}/" class="element">
-                    <span class="element-title">
+                <a href="./{{ pack }}/" class="box clickable-box">
+                    <span class="box-title">
                         {{ pack }}
                     </span>
-                    <p class="element-paragraph">
+                    <p class="box-text">
                         {{ packs[pack]|length }} carta{{ packs[pack]|length|pluralize }}
                     </p>
                 </a>
                 {% endfor %}
             </div>
         </main>
-
-        <!--<footer>
-            Holi
-        </footer>-->
     </body>
     <script> </script>
 </html>
