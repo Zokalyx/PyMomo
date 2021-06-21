@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
+
+        <link rel="shortcut icon" href="/images/momo.ico" type="image/x-icon">
+
+        <link rel="stylesheet" href="/styles/base.css" type="text/css">
+
+        <style>
+
+        </style>
+
+        <title>{{ card.pack }} {{ card.id + 1 }}</title>
+    </head>
+
+
+    <body>
+        <header>
+            <a class="logo" href="/">
+                <img src="/images/momo.png">
+                Momo
+            </a>
+        </header>
+
+        <main>
+            <div class="title-row">
+                <div class="title-side left slim">
+                    <a href="./">
+                        <img class="back" src="/images/back.png">
+                    </a>
+                </div>
+                <span class="main-title">{{ card.pack }} {{ card.id + 1 }}</span>
+                <div class="title-side right slim"></div>
+            </div>
+
+            <div class="main">
+                <div class="card-info-box box {{ card.rarity }}">
+                    <img src="{{ card.link }}" />
+
+                    <span class="box-title">{{ custom_name }}</span>
+
+                    {% if card.desc %}
+                    <span class="box-text">{{ card.desc }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="card-info-box card-info-info box {{ card.rarity }}">
+                    <span class="box-title">Información</span>
+
+                    <div class="card-info-row">
+                        <div class="card-info-column">
+                            <ul class="box-text">
+                                <li>Valor: ${{ card.value }}</li>
+                                <li>Multiplicador: x{{ card.mult }}</li>
+                                <li>Rareza: 
+                                    {{ {"c": "Común",
+                                        "r": "Rara",
+                                        "e": "Épica",
+                                        "l": "Legendaria",
+                                        "m": "Mítica"}[card.rarity] }}
+                                </li>
+                                <li>
+                                {% if card.owner %}
+                                Dueño: <a href="/users/{{ user.id }}"> {{ user.default_name }} </a> 
+                                <li>
+                            Adquirida: {{ card.stats["obtained"]["time"] }}
+                                    ({{ card.stats["obtained"]["reason"] }})
+                                </li>
+                                {% else %}
+                                Sin dueño
+                                {% endif %}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="card-info-column">
+                            <ul class="box-text">
+                                <li>Rolls: {{ card.stats["rolls"] }}</li>
+                                {% if card.stats["rolls"] > 0 %}
+                                <li>Último roll: {{ card.stats["last_roll"]["time"] }} por 
+                                    {{ users[(card.stats["last_roll"]["user"])|int].default_name }}
+                                </li>
+                                {% endif %}
+                                <li>Reacciones: {{ card.stats["reacts"] }}</li>
+                                <li>Inversiones: {{ card.stats["invs"] }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    GRAFICO DE VALOR SOBRE TIEMPO (EN PROGRESO)
+
+                    <span class="box-header">Valor total: ${{ card.value * card.mult }}</span>
+                </div>
+            </div>
+        </main>
+    </body>
+    <script> </script>
+</html>

@@ -18,7 +18,10 @@
 
     <body>
         <header>
-            <a class="logo" href="/">Momo</a>
+            <a class="logo" href="/">
+                <img src="/images/momo.png">
+                Momo
+            </a>
         </header>
 
         <main>
@@ -34,9 +37,10 @@
 
             <div class="main">
                 <a href="/cards/" class="box clickable-box">
-                    <span class="box-title">
-                        Todas las<br>cartas
-                    </span>
+                    <span class="box-title">Todas las cartas</span>
+                    <p class="box-text">
+                        {{ all_cards_amount|length }} carta{{ all_cards_amount|length|pluralize }}
+                    </p>
                 </a>
 
                 {% for pack in packs|sort %}

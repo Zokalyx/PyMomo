@@ -8,32 +8,20 @@
         <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
         
-        <script src="/scripts/all.js"></script>
-
+        <script src="/scripts/cards.js"></script>
+        
         <link rel="shortcut icon" href="/images/momo.ico" type="image/x-icon">
-
+        
         <link rel="stylesheet" href="/styles/base.css" type="text/css">
 
         <style>
-            #user-form:hover
-            {
-                height: {{ 8.5 + 4*users|length }}vh;
-            }
-
             #order-form:hover
             {
                 height: 12vh;
             }
-
-            {% for id, user in users.items() %}
-            #check-{{ id }} input:checked ~ .checkmark
-            {
-                background-color: #{{ "%x"|format(user.color) }};
-            }
-            {% endfor %}
         </style>
 
-        <title>Cartas</title>
+        <title>Colección {{ pack }} de {{ user.default_name }}</title>
     </head>
 
 
@@ -48,11 +36,11 @@
         <main>
             <div class="title-row">
                 <div class="title-side left">
-                    <a href="../packs/">
+                    <a href="./">
                         <img src="/images/back.png">
                     </a>
                 </div>
-                <span class="main-title">Todas las cartas</span>
+                <span class="main-title">Colección {{ pack }} de {{ user.default_name }}</span>
                 <div class="title-side right">
                     <div class="filter-form-wrapper">
                         <div class="filter-form" id="order-form">
@@ -69,26 +57,6 @@
                                 <input type="radio" name="order">
                                 <span class="checkmark"></span>
                             </label>
-                        </div>
-                    </div>
-
-                    <div class="filter-form-wrapper">
-                        <div class="filter-form" id="user-form">
-                            <span class="form-title">Dueño</span>
-
-                            <label class="form-container" id="check-0">
-                                <span class="checkbox-text">Sin dueño</span>
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-
-                            {% for id, user in users.items() %}
-                            <label class="form-container" id="check-{{ user.id }}">
-                                <span class="checkbox-text">{{ user.default_name }}</span>
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-                            {% endfor %}
                         </div>
                     </div>
 
@@ -131,22 +99,18 @@
             </div>
 
             <div class="main">
-                {% for card in cards %}
-                <a href="/packs/{{ card.pack }}/{{ loop.index }}"
-                    class="box card-box clickable-box {{ card.rarity }}"
+                {% for card in cards|sort(attribute="id") %}
+                <a href="/packs/{{ pack }}/{{ loop.index }}"
+                    class="box clickable-box card-box {{ card.rarity }}"
                     data-id="{{ card.id }}"
                     data-rarity="{{ card.rarity }}""
-                    data-owner="{{ users[card.owner].id if card.owner else 0 }}"
-                    data-value="{{ card.value * card.mult }}"
-                    data-pack="{{ card.pack }}"   
+                    data-value="{{ card.value * card.mult }}"   
                 >
                     <span class="box-title">
-                        {{ card.pack }} {{ card.id + 1 }}
+                        {{ card.id + 1}}
                     </span>
                     <img class="box-image" src="{{ card.link }}">
                     <p class="box-text">
-                        {{ "Dueño: " + users[card.owner].default_name if card.owner else "Sin dueño" }}
-                        <br>
                         ${{ card.value }} &nbsp; &nbsp; &nbsp; x{{ card.mult }}
                     </p>
                 </a>

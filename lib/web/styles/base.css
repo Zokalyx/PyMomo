@@ -61,6 +61,14 @@ header
 
     display: flex;
     justify-content: flex-start;
+    align-items: center;
+}
+
+header img
+{
+    height: 8vh;
+
+    border-radius: 2vh;
 }
 
 body
@@ -97,6 +105,7 @@ a
     
     display: flex;
     justify-content: right;
+    align-items: center;
 }
 
 /* TITLE ROW */
@@ -132,6 +141,11 @@ a
     align-items: center;
 }
 
+.title-side.slim
+{
+    width: 20vh;
+}
+
 .title-side.left
 {  
     justify-content: flex-start;
@@ -148,7 +162,7 @@ a
 
 .filter-form-wrapper
 {
-    width: 25vh;
+    width: 20vh;
 }
 
 .filter-form
@@ -319,7 +333,7 @@ a
 
 .clickable-box:hover
 {
-    top: -1vh;
+    top: -0.8vh;
     border-color: hsl(0, 0%, 100%);
     background-color: var(--base-highlight)
 }
@@ -339,6 +353,47 @@ a
     font-size: 2.7vh;
 }
 
+/* MISC */
+
+.baseline
+{
+    align-items: baseline;
+}
+
+.align-center
+{
+    align-items: center;
+}
+
+.align-left
+{
+    text-align: left;
+}
+
+.graph
+{
+    width: 100%;
+    height: 20vh;
+
+    border-bottom: 0.5vh solid;
+    border-left: 0.5vh solid;
+
+    border-color: var(--header-color);
+}
+
+.graph svg
+{
+    width: 100%;
+    height: 100%;
+}
+
+.graph polyline
+{
+    fill: none;
+    stroke: rgb(48, 106, 172);
+    stroke-width: 1;
+}
+
 
 /* ------------------------------------------------------------------------ */
 
@@ -356,7 +411,7 @@ a
 .user-box
 {
     width: 44vh;
-    height: 22vh;
+    height: 27vh;
 }
 
 .user-title-row
@@ -369,11 +424,14 @@ a
 .user-title-row img
 {
     max-width: 12vh;
+    max-height: 15vh;
     border-radius: 1vh;
 }
 
 .user-name-and-desc
 {
+    text-align: left;
+
     display: flex;
     flex-direction: column;
 }
@@ -413,7 +471,7 @@ a
 
 .profile-image
 {
-    height: 20vh;
+    height: 18vh;
     border-radius: 2vh;
 }
 
@@ -423,8 +481,14 @@ a
 
     display: flex;
     flex-direction: row;
-    align-items: baseline;
     justify-content: space-between;
+}
+
+.profile-column
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .profile-collection
@@ -438,7 +502,7 @@ a
 {
     background-color: var(--header-color);
 
-    height: 10vh;
+    height: 7vh;
     width: 100%;
     margin-bottom: 1vh;
 
@@ -469,7 +533,7 @@ a
     /* Position the tooltip */
     position: absolute;
     z-index: 1;
-    top: -70%;
+    top: -105%;
     opacity: 0;
 
     transition: opacity 300ms;
@@ -520,32 +584,78 @@ a
 
 .c {
     background-color: var(--c-color);
-} .c:hover {
+} .c:hover:not(.card-info-box) {
     background-color: var(--c-highlight);
 }
 
 .r {
     background-color: var(--r-color);
-} .r:hover {
+} .r:hover:not(.card-info-box) {
     background-color: var(--r-highlight);
 }
 
 .e {
     background-color: var(--e-color);
-} .e:hover {
+} .e:hover:not(.card-info-box) {
     background-color: var(--e-highlight);
 }
 
 .l {
     background-color: var(--l-color);
-} .l:hover {
+} .l:hover:not(.card-info-box) {
     background-color: var(--l-highlight);
 }
 
 .m {
     background-color: var(--m-color);
-} .m:hover {
+} .m:hover:not(.card-info-box) {
     background-color: var(--m-highlight);
+}
+
+
+/* SPECIFIC CARD SPECIFIC */
+
+.card-info-info
+{
+    width: 80vh;
+}
+
+.card-info-row
+{
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.card-info-column
+{   
+    position: relative;
+    left: 8vh;
+    width: 50%;
+    text-align: left;
+}
+
+.card-info-column ul li
+{
+    text-align: left;
+}
+
+.card-info-box
+{
+    height: 60vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-info-box img
+{
+    height: 70%;
+    max-width: 100%;
+
+    border-radius: 1vh;
 }
 
 

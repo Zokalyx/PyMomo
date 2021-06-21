@@ -1,8 +1,9 @@
+import time
+import functools
 import discord
 from lib.classes.card import Card
 from lib.classes.collection import Collection
 from lib.classes.pack import Pack
-
 
 class User:
     """Custom User class for Momo players"""
@@ -26,6 +27,14 @@ class User:
             self.img: str = str(user.avatar_url)
             self.color: int = user.color.value
             self.id: int = user.id
+            self.nation = "none"
+            self.lvl = 1
+            self.xp = 0
+            self.bal = 500
+            self.stats = {
+                "bal": [(time.time(), self.bal)]
+            }
+            self.desc = ""
             # Create a new, empty collection for each existing pack
             for pack_name in packs:
                 self.collection[pack_name] = Collection(
@@ -77,3 +86,11 @@ class User:
             for rar in amounts:
                 amounts[rar] /= count
         return amounts
+
+    def get_all_cards(self) -> list[Card]:
+        """Returns all cards sorted by pack name"""
+        return functools.reduce(
+            lambda x, y: x+y,
+            dict(sorted(self.collection.items())).values(),
+            []
+        )

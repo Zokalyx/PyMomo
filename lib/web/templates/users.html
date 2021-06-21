@@ -33,7 +33,10 @@
 
     <body>
         <header>
-            <a class="logo" href="/">Momo</a>
+            <a class="logo" href="/">
+                <img src="/images/momo.png">
+                Momo
+            </a>
         </header>
 
         <main>
@@ -77,8 +80,8 @@
                 >
                     <div class="user-title-row">
                         <div class="user-name-and-desc">
-                            <span class="box-title">{{ user.default_name }}</span>
-                            <span class="box-text">{{ user.description }}</span>
+                            <span class="box-title align-left">{{ user.default_name }}</span>
+                            <span class="align-left">{{ user.description }}</span>
                         </div>
 
                         <img src="{{ user.img }}">

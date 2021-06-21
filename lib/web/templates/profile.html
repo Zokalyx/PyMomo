@@ -34,7 +34,10 @@
 
     <body>
         <header>
-            <a class="logo" href="/">Momo</a>
+            <a class="logo" href="/">
+                <img src="/images/momo.png">
+                Momo
+            </a>
         </header>
 
         <main>
@@ -52,8 +55,8 @@
                 <div class="box profile-box">
                     <span class="box-title">Colección</span>
 
-                    <div class="profile-row">
-                        <a href="../collections/{{ user.id }}">
+                    <div class="profile-row baseline">
+                        <a href="/collections/{{ user.id }}/">
                             <div class="box-header profile-collection clickable-box">Ver colección</div>
                         </a>
                         <span class="box-header">
@@ -91,11 +94,30 @@
                 <div class="box profile-box">
                     <span class="box-title">General</span>
 
-                    <img class="profile-image" src="{{ user.img }}">
+                    <div class="profile-row align-center">
+                        <div class="profile-column">
+                            <span class="box-text">{{ user.description if user.description else "Sin descripción" }}</span>
+                        </div>
+                        <img class="profile-image" src="{{ user.img }}">
+                    </div>
 
-                    <span class="box-text">{{ user.description }}</span>
+                    ESTADÍSTICAS GENERALES (EN PROGRESO)
+                    HABILIDADES (EN PROGRESO)
 
                     <div class="profile-bar-wrapper">
+                        <span class="box-header">
+                            Nación
+                            {% if user.nation == "fire" %}
+                            fuego
+                            {% elif user.nation == "water" %}
+                            agua
+                            {% elif user.nation == "air" %}
+                            aire
+                            {% else %}
+                            tierra
+                            {% endif %}
+                        </span>
+
                         <div class="profile-bar">
                             <div id="completed-xp" class="tooltip">
                                 <div class="tooltip-text level-tooltip-text">
@@ -112,6 +134,21 @@
 
                 <div class="box profile-box">
                     <span class="box-title">Economía</span>
+
+                    ESTADÍSTICAS ECONÓMICAS (EN PROGRESO)
+
+                    <div class="graph">
+                        <svg preserveAspectRatio="none" viewBox="0 0 200 100">
+                            <polyline
+                                points="
+                                    {% for x, y in user_graph %}
+                                    {{2*x}},{{y}}{{" "}}
+                                    {% endfor %}
+                                " />
+                        </svg>
+                    </div>
+
+                    <span class="box-header">Balance: ${{ user.bal }}</span>
                 </div> 
             </div>
         </main>

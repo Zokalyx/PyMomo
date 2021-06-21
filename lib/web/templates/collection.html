@@ -8,111 +8,48 @@
         <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
         
-        <script src="/scripts/all.js"></script>
-
         <link rel="shortcut icon" href="/images/momo.ico" type="image/x-icon">
 
         <link rel="stylesheet" href="/styles/base.css" type="text/css">
-
-        <style>
-
-            #order-form:hover
-            {
-                height: 12vh;
-            }
-
-        </style>
-        <title>
-            Colección de {{ user.default_name }}
-        </title>
+        
+        <title>Colección de {{ user.default_name }}</title>
     </head>
 
 
     <body>
         <header>
-            <a class="logo" href="/">Momo</a>
+            <a class="logo" href="/">
+                <img src="/images/momo.png">
+                Momo
+            </a>
         </header>
 
         <main>
             <div class="title-row">
                 <div class="title-side left">
-                    <a href="../users/{{user.id}}">
-                        <img src="/images/back.png">
+                    <a href="/users/{{ user.id }}">
+                        <img class="back" src="/images/back.png">
                     </a>
                 </div>
                 <span class="main-title">Colección de {{ user.default_name }}</span>
-                <div class="title-side right">
-                    <div class="filter-form-wrapper">
-                        <div class="filter-form" id="order-form">
-                            <span class="form-title">Orden</span>
-
-                            <label class="form-container" id="order-number">
-                                <span class="checkbox-text">Número</span>
-                                <input type="radio" name="order" checked>
-                                <span class="checkmark"></span>
-                            </label>
-
-                            <label class="form-container" id="order-value">
-                                <span class="checkbox-text">Valor</span>
-                                <input type="radio" name="order">
-                                <span class="checkmark"></span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="filter-form-wrapper">
-                        <div class="filter-form" id="rarity-form">
-                            <span class="form-title">Rareza</span>
-
-                            <label class="form-container" id="check-c">
-                                <span class="checkbox-text">Común</span>
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-                            
-                            <label class="form-container" id="check-r">
-                                <span class="checkbox-text">Rara</span>
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-                            
-                            <label class="form-container" id="check-e">
-                                <span class="checkbox-text">Épica</span>
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-                            
-                            <label class="form-container" id="check-l">
-                                <span class="checkbox-text">Legendaria</span>
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-
-                            <label class="form-container" id="check-m">
-                                <span class="checkbox-text">Mítica</span>
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
+                <div class="title-side right"></div>
             </div>
 
             <div class="main">
-                {% for card in cards %}
-                <a href="/packs/{{ card.pack }}/{{ loop.index }}"
-                    class="box clickable-box card-box {{ card.rarity }}"
-                    data-id="{{ card.id }}"
-                    data-rarity="{{ card.rarity }}""
-                    data-value="{{ card.value * card.mult }}"
-                    data-pack="{{ card.pack }}"   
-                >
-                    <span class="box-title">
-                        {{ card.pack }} {{ card.id + 1 }}
-                    </span>
-                    <img class="box-image" src="{{ card.link }}">
+                <a href="all" class="box clickable-box">
+                    <span class="box-title">Toda la colección</span>
                     <p class="box-text">
-                        ${{ card.value }} &nbsp; &nbsp; &nbsp; x{{ card.mult }}
+                        {{ all_cards_amount|length }} carta{{ all_cards_amount|length|pluralize }}
+                    </p>
+                </a>
+
+                {% for pack in collection|sort %}
+                <a href="./{{ pack }}" class="box clickable-box">
+                    <span class="box-title">
+                        {{ pack }}
+                    </span>
+                    <p class="box-text">
+                        {{ collection[pack]|length }} carta{{ collection[pack]|length|pluralize }}
                     </p>
                 </a>
                 {% endfor %}

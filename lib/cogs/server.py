@@ -6,6 +6,8 @@ from aiohttp import web
 
 from discord.ext.commands import Cog, command
 from lib.web import env, set_env, was_modified, was_modified_static
+from lib.cogs.webhelper import user_graph
+
 
 class MomoServer(Cog):
     """Comandos relacionados a la página web"""
@@ -22,13 +24,11 @@ class MomoServer(Cog):
         set_env(self.bot.db.on_cloud)
         self.bot.loop.create_task(self._start_server())
 
-
     async def _start_server(self) -> None:
         """Enciende el servidor http"""
         await self.bot.wait_until_ready()
         print("Done!")
         await self.server.start()
-
 
     @server.add_route(path="/", method="GET", cog="MomoServer")
     async def home(self, request) -> web.Response:
@@ -57,7 +57,8 @@ class MomoServer(Cog):
             self.bot.pack_data()
             return web.Response(
                 body=env.get_template("packs.html").render(
-                    packs=self.bot.packs
+                    packs=self.bot.packs,
+                    all_cards_amount=self.bot.get_all_cards()
                 ),
                 content_type="html",
                 headers={
@@ -68,7 +69,6 @@ class MomoServer(Cog):
             )
         else:
             return web.Response(status=304)
-
 
     @server.add_route(path="/packs/{pack}/", method="GET", cog="MomoServer")
     async def pack(self, request) -> web.Response:
@@ -92,7 +92,6 @@ class MomoServer(Cog):
             )
         else:
             return web.Response(status=304)
-    
 
     @server.add_route(path="/cards/", method="GET", cog="MomoServer")
     async def cards(self, request) -> web.Response:
@@ -155,6 +154,7 @@ class MomoServer(Cog):
                     rarity_proportions=user.get_rarity_counts(
                         proportion=True
                     ),
+                    user_graph=user_graph(user),
                     config=self.bot.config
                 ),
                 content_type="html",
@@ -167,14 +167,9 @@ class MomoServer(Cog):
         else:
             return web.Response(status=304)
 
-
-    @server.add_route(
-        path="/collections/{id}",
-        method="GET",
-        cog="MomoServer"
-    )
-    async def collection(self, request) -> web.Response:
-        """Page for visualizing the cards of a user"""
+    @server.add_route(path="/collections/{id}/", method="GET", cog="MomoServer")
+    async def packs(self, request) -> web.Response:
+        """Page for the selection of a collection to visualize"""
         # Only show content if there was any modifications since
         if was_modified(self, request):
             self.bot.pack_data()
@@ -182,7 +177,92 @@ class MomoServer(Cog):
             return web.Response(
                 body=env.get_template("collection.html").render(
                     user=user,
+                    collection=user.collection,
+                    all_cards_amount=user.get_all_cards()
+                ),
+                content_type="html",
+                headers={
+                    "Last-Modified": self.bot.last_modified.strftime(
+                        "%a, %d %b %Y %H:%M:%S GMT"
+                    )
+                }
+            )
+        else:
+            return web.Response(status=304)
+
+    @server.add_route(
+        path="/collections/{id}/all",
+        method="GET",
+        cog="MomoServer"
+    )
+    async def allcollection(self, request) -> web.Response:
+        """Page for visualizing all the cards of a user"""
+        # Only show content if there was any modifications since
+        if was_modified(self, request):
+            self.bot.pack_data()
+            user = self.bot.users[int(request.match_info["id"])]
+            return web.Response(
+                body=env.get_template("allcollection.html").render(
+                    user=user,
                     cards=self.bot.get_full_collections()[user.id]
+                ),
+                content_type="html",
+                headers={
+                    "Last-Modified": self.bot.last_modified.strftime(
+                        "%a, %d %b %Y %H:%M:%S GMT"
+                    )
+                }
+            )
+        else:
+            return web.Response(status=304)
+
+    @server.add_route(
+        path="/collections/{id}/{pack}",
+        method="GET",
+        cog="MomoServer"
+    )
+    async def packcollection(self, request) -> web.Response:
+        """Page for visualizing the cards of a user of a pack"""
+        # Only show content if there was any modifications since
+        if was_modified(self, request):
+            self.bot.pack_data()
+            user = self.bot.users[int(request.match_info["id"])]
+            pack_name = request.match_info["pack"]
+            return web.Response(
+                body=env.get_template("packcollection.html").render(
+                    pack=pack_name,
+                    user=user,
+                    cards=user.collection[pack_name]
+                ),
+                content_type="html",
+                headers={
+                    "Last-Modified": self.bot.last_modified.strftime(
+                        "%a, %d %b %Y %H:%M:%S GMT"
+                    )
+                }
+            )
+        else:
+            return web.Response(status=304)
+
+    @server.add_route(
+        path="/packs/{pack}/{id}",
+        method="GET",
+        cog="MomoServer"
+    )
+    async def card(self, request) -> web.Response:
+        """Page for a single card"""
+        # Only show content if there was any modifications since
+        if was_modified(self, request):
+            match_info = request.match_info
+            self.bot.pack_data()
+            card = self.bot.packs[match_info["pack"]][int(match_info["id"])-1]
+            user = self.bot.users[card.owner] if card.owner else None
+            return web.Response(
+                body=env.get_template("card.html").render(
+                    card=card,
+                    user=user,
+                    users=self.bot.users,
+                    custom_name=card.get_best_name()
                 ),
                 content_type="html",
                 headers={
@@ -246,7 +326,6 @@ class MomoServer(Cog):
                 status=404
             )
 
-    
     @server.add_route(path="/fonts/{file}", method="GET", cog="MomoServer")
     async def font(self, request) -> web.Response:
         """Returns a font file"""
@@ -277,7 +356,6 @@ class MomoServer(Cog):
                 status=404
             )
 
-    
     @server.add_route(path="/styles/{file}", method="GET", cog="MomoServer")
     async def style(self, request) -> web.Response:
         """Returns a css file"""
@@ -307,7 +385,6 @@ class MomoServer(Cog):
                 status=404
             )
 
-    
     @server.add_route(path="/scripts/{file}", method="GET", cog="MomoServer")
     async def script(self, request) -> web.Response:
         """Returns a js file"""
@@ -338,7 +415,7 @@ class MomoServer(Cog):
             )
 
 # ----------------------------COMMANDS----------------------------------------
-    
+
     @command()
     async def link(self, ctx):
         """Muestra el link de la página web de Momo"""
