@@ -26,6 +26,23 @@
                 width: {{ 100 * user.xp / (config["xp-base"] + config["xp-slope"]*(user.lvl-1)) }}%;
                 background-color: #{{ "%x"|format(user.color) }};
             }
+
+            /*
+            .bg-image
+            {
+                background-image: url(
+                    {% if user.nation == "fire" %}
+                    "https://i.pinimg.com/originals/d4/7b/5b/d47b5b805f3828917acda81cc00e076b.jpg"
+                    {% elif user.nation == "water" %}
+                    "https://cutewallpaper.org/21/wallpaper-tribe/Avatar-Water-Tribe-download-high-quality-desktop-wallpapers.jpg"
+                    {% elif user.nation == "air" %}
+                    "https://wallpaperaccess.com/full/567845.png"
+                    {% else %}
+                    "https://i.pinimg.com/originals/b7/b4/b8/b7b4b8ad37da5b31ee457c8a8dbf44c6.jpg"
+                    {% endif %}
+                );
+            }
+            */
         </style>
 
         <title>{{ user.default_name }}</title>
@@ -33,6 +50,8 @@
 
 
     <body>
+        <!--div class="bg-image"></div-->
+
         <header>
             <a class="logo" href="/">
                 <img src="/images/momo.png">
@@ -47,7 +66,7 @@
                         <img class="back" src="/images/back.png">
                     </a>
                 </div>
-                <span class="main-title">{{ user.default_name }}</span>
+                <span class="main-title profile-title">{{ user.default_name }}</span>
                 <div class="title-side right"></div>
             </div>
 
@@ -64,11 +83,17 @@
                         </span>
                     </div>
 
-                    <div class="profile-top-cards">
-                        TOP CARTAS (EN PROGRESO)
-                        <br>
-                        VALOR TOTAL (EN PROGRESO)
+                    <div class="profile-top-cards profile-column box-text">
+                        <span class="box-header profile-card-header">Top cartas</span>
+                        
+                        {% for card in top_cards %}
+                        <a href="/packs/{{ card.pack }}/{{ card.id + 1 }}">{{ "%s: $%i x%i"|format(card.custom if card.custom else card.pack + (card.id+1)|string(), card.value, card.mult) }}</a>
+                        {% endfor %}
+
                     </div>
+                    <span class="box-header">
+                        Total: ${{ total_value }}<br>Promedio: ${{ (total_value / collections[user.id]|length)|round()|int() if collections[user.id]|length else 0 }}
+                    </span>
 
                     <div class="profile-bar-wrapper">
                         <div class="profile-bar">
@@ -101,11 +126,22 @@
                         <img class="profile-image" src="{{ user.img }}">
                     </div>
 
-                    ESTADÍSTICAS GENERALES (EN PROGRESO)
-                    HABILIDADES (EN PROGRESO)
+                    <div class="profile-row">
+                        <div class="profile-column align-center box-text">
+                            <span>Rolls: {{ user.stats["rolls"] }}</span>
+                            <span>Comandos: {{ user.stats["commands"] }}</span>
+                            <span>Experiencia: {{ user.stats["xp"] }}xp</span>
+                        </div>
+
+                        <div class="profile-column align-center box-text">
+                            <span>Reacciones: {{ user.stats["reacts"] }}</span>
+                            <span>Inversiones: {{ user.stats["invs"] }}</span>
+                            <span>Compras: {{ user.stats["buys"] }}</span>
+                        </div>
+                    </div>
 
                     <div class="profile-bar-wrapper">
-                        <span class="box-header">
+                        <!--span class="box-header">
                             Nación
                             {% if user.nation == "fire" %}
                             fuego
@@ -116,7 +152,29 @@
                             {% else %}
                             tierra
                             {% endif %}
-                        </span>
+                        </span-->
+
+                        <div class="profile-row box-text">
+                            <div class="row align-center">
+                                <img class="skill-icon" src="/images/watersymbol.png" />
+                                <span>{{ user.skills["water"] }}</span>
+                            </div>
+
+                            <div class="row align-center">
+                                <img class="skill-icon" src="/images/firesymbol.png" />
+                                <span>{{ user.skills["fire"] }}</span>
+                            </div>
+
+                            <div class="row align-center">
+                                <img class="skill-icon" src="/images/earthsymbol.png" />
+                                <span>{{ user.skills["earth"] }}</span>
+                            </div>
+
+                            <div class="row align-center">
+                                <img class="skill-icon" src="/images/airsymbol.png" />
+                                <span>{{ user.skills["air"] }}</span>
+                            </div>
+                        </div>
 
                         <div class="profile-bar">
                             <div id="completed-xp" class="tooltip">
@@ -135,7 +193,7 @@
                 <div class="box profile-box">
                     <span class="box-title">Economía</span>
 
-                    ESTADÍSTICAS ECONÓMICAS (EN PROGRESO)
+                    Estadísticas económicas (próximamente)
 
                     <div class="graph">
                         <svg preserveAspectRatio="none" viewBox="0 0 200 100">

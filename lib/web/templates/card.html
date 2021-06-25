@@ -55,45 +55,63 @@
 
                     <div class="card-info-row">
                         <div class="card-info-column">
-                            <ul class="box-text">
-                                <li>Valor: ${{ card.value }}</li>
-                                <li>Multiplicador: x{{ card.mult }}</li>
-                                <li>Rareza: 
-                                    {{ {"c": "Común",
-                                        "r": "Rara",
-                                        "e": "Épica",
-                                        "l": "Legendaria",
-                                        "m": "Mítica"}[card.rarity] }}
-                                </li>
-                                <li>
+                            <span class="{{ card.rarity }} box-text card-info-element">
+                                Valor: ${{ card.value }}
+                            </span>
+                            <span class="{{ card.rarity }} box-text card-info-element">
+                                Multiplicador: x{{ card.mult }}
+                            </span>
+                            <span class="{{ card.rarity }} box-text card-info-element">
+                                Rareza: 
+                                {{ {"c": "Común",
+                                    "r": "Rara",
+                                    "e": "Épica",
+                                    "l": "Legendaria",
+                                    "m": "Mítica"}[card.rarity] }}
+                            </span>
+                            <span class="{{ card.rarity }} box-text card-info-element">
+                                Dueño: 
                                 {% if card.owner %}
-                                Dueño: <a href="/users/{{ user.id }}"> {{ user.default_name }} </a> 
-                                <li>
-                            Adquirida: {{ card.stats["obtained"]["time"] }}
-                                    ({{ card.stats["obtained"]["reason"] }})
-                                </li>
+                                <a href="/users/{{ user.id }}"> {{ user.default_name }} </a>
                                 {% else %}
                                 Sin dueño
                                 {% endif %}
-                                </li>
-                            </ul>
+                            </span>
                         </div>
-
+                        
                         <div class="card-info-column">
-                            <ul class="box-text">
-                                <li>Rolls: {{ card.stats["rolls"] }}</li>
-                                {% if card.stats["rolls"] > 0 %}
-                                <li>Último roll: {{ card.stats["last_roll"]["time"] }} por 
-                                    {{ users[(card.stats["last_roll"]["user"])|int].default_name }}
-                                </li>
-                                {% endif %}
-                                <li>Reacciones: {{ card.stats["reacts"] }}</li>
-                                <li>Inversiones: {{ card.stats["invs"] }}</li>
-                            </ul>
+                            <span class="{{ card.rarity }} box-text card-info-element">
+                                Rolls: {{ card.stats["rolls"] }}
+                            </span>
+                            {% if card.stats["rolls"] > 0 %}
+                            <span class="{{ card.rarity }} box-text card-info-element">
+                                Último roll: hace {{ roll_time_ago }} por 
+                                {{ users[(card.stats["last_roll"]["user"])|int].default_name }}
+                            </span>
+                            {% endif %}
+                            <span class="{{ card.rarity }} box-text card-info-element">
+                                Reacciones: {{ card.stats["reacts"] }}
+                            </span>
+                            <!--li>Inversiones: {{ card.stats["invs"] }}</li-->
+                            {% if card.owner %}
+                            <span class="{{ card.rarity }} box-text card-info-element">
+                                Adquirida: hace {{ obtained_time_ago }}
+                                ({{ card.stats["obtained"]["reason"] }})
+                            </span>
+                            {% endif %}
                         </div>
                     </div>
 
-                    GRAFICO DE VALOR SOBRE TIEMPO (EN PROGRESO)
+                    <div class="graph">
+                        <svg preserveAspectRatio="none" viewBox="0 0 200 100">
+                            <polyline
+                                points="
+                                    {% for x, y in card_graph %}
+                                    {{2*x}},{{y}}{{" "}}
+                                    {% endfor %}
+                                " />
+                        </svg>
+                    </div>
 
                     <span class="box-header">Valor total: ${{ card.value * card.mult }}</span>
                 </div>

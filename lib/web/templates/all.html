@@ -132,7 +132,7 @@
 
             <div class="main">
                 {% for card in cards %}
-                <a href="/packs/{{ card.pack }}/{{ loop.index }}"
+                <a href="/packs/{{ card.pack }}/{{ card.id + 1 }}"
                     class="box card-box clickable-box {{ card.rarity }}"
                     data-id="{{ card.id }}"
                     data-rarity="{{ card.rarity }}""

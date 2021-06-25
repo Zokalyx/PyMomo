@@ -27,12 +27,23 @@ class User:
             self.img: str = str(user.avatar_url)
             self.color: int = user.color.value
             self.id: int = user.id
-            self.nation = "none"
+            self.skills = {
+                "fire": 0,
+                "water": 0,
+                "air": 0,
+                "earth": 0
+            }
             self.lvl = 1
             self.xp = 0
             self.bal = 500
             self.stats = {
-                "bal": [(time.time(), self.bal)]
+                "bal": [(time.time(), self.bal)],
+                "rolls": 0,
+                "reacts": 0,
+                "invs": 0,
+                "buys": 0,
+                "commands": 0,
+                "xp": 0
             }
             self.desc = ""
             # Create a new, empty collection for each existing pack
@@ -94,3 +105,24 @@ class User:
             dict(sorted(self.collection.items())).values(),
             []
         )
+
+    def get_top(self, count=None) -> list[Card]:
+        """Returns all cards sorted by total value
+        Optionally choose how many cards to return"""
+        cards = list(reversed(sorted(self.get_all_cards(), key=lambda x: x.value * x.mult)))
+        if count is None:
+            return cards
+        
+        if count > len(cards):
+            count = len(cards)
+        
+        return cards[:count]
+
+    def get_total_value(self, pack_name=None) -> list[Card]:
+        """Returns the total value of a card in a given pack
+        if None is given, it returns the average value of all cards"""
+        if pack_name is None:
+            cards = self.get_all_cards()
+        else:
+            cards = self.collection[pack_name]
+        return sum(card.value * card.mult for card in cards)

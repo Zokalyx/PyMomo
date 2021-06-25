@@ -106,6 +106,28 @@ class Momo(commands.Bot):
             reverse=True
         )
 
+    def get_odds(self) -> dict[str, float]:
+        """Returns odds for rolling each rarity"""
+        weighted_total = 0
+        weighted_counts = {
+            "c": 0,
+            "r": 0,
+            "e": 0,
+            "l": 0,
+            "m": 0
+        }
+        for pack_name, pack_list in self.packs.items():
+            for card in pack_list:
+                to_sum = self.config["weights"][card.rarity]
+                weighted_total += to_sum
+                weighted_counts[card.rarity] += to_sum
+        
+        if weighted_total != 0:
+            for weighted in weighted_counts:
+                weighted_counts[weighted] /= weighted_total
+            
+        return weighted_counts
+
     def pack_data(self) -> None:
         """Updates the data on the database for it to save it to disk"""
         self.db.data["config"] = self.config

@@ -6,7 +6,7 @@ from aiohttp import web
 
 from discord.ext.commands import Cog, command
 from lib.web import env, set_env, was_modified, was_modified_static
-from lib.cogs.webhelper import user_graph
+from lib.cogs.webhelper import card_graph, user_graph, time_ago_formatter
 
 
 class MomoServer(Cog):
@@ -115,6 +115,39 @@ class MomoServer(Cog):
         else:
             return web.Response(status=304)
 
+    @server.add_route(
+        path="/packs/{pack}/{id}",
+        method="GET",
+        cog="MomoServer"
+    )
+    async def card(self, request) -> web.Response:
+        """Page for a single card"""
+        # Only show content if there was any modifications since
+        if was_modified(self, request):
+            match_info = request.match_info
+            self.bot.pack_data()
+            card = self.bot.packs[match_info["pack"]][int(match_info["id"])-1]
+            user = self.bot.users[card.owner] if card.owner else None
+            return web.Response(
+                body=env.get_template("card.html").render(
+                    card=card,
+                    user=user,
+                    users=self.bot.users,
+                    custom_name=card.get_best_name(),
+                    card_graph=card_graph(card),
+                    obtained_time_ago=time_ago_formatter(card.stats["obtained"]["time"]),
+                    roll_time_ago=time_ago_formatter(card.stats["last_roll"]["time"])
+                ),
+                content_type="html",
+                headers={
+                    "Last-Modified": self.bot.last_modified.strftime(
+                        "%a, %d %b %Y %H:%M:%S GMT"
+                    )
+                }
+            )
+        else:
+            return web.Response(status=304)
+
 # ---------------------------USER RELATED-------------------------------------
 
     @server.add_route(path="/users/", method="GET", cog="MomoServer")
@@ -155,6 +188,8 @@ class MomoServer(Cog):
                         proportion=True
                     ),
                     user_graph=user_graph(user),
+                    top_cards=user.get_top(5),
+                    total_value=user.get_total_value(),
                     config=self.bot.config
                 ),
                 content_type="html",
@@ -244,36 +279,6 @@ class MomoServer(Cog):
         else:
             return web.Response(status=304)
 
-    @server.add_route(
-        path="/packs/{pack}/{id}",
-        method="GET",
-        cog="MomoServer"
-    )
-    async def card(self, request) -> web.Response:
-        """Page for a single card"""
-        # Only show content if there was any modifications since
-        if was_modified(self, request):
-            match_info = request.match_info
-            self.bot.pack_data()
-            card = self.bot.packs[match_info["pack"]][int(match_info["id"])-1]
-            user = self.bot.users[card.owner] if card.owner else None
-            return web.Response(
-                body=env.get_template("card.html").render(
-                    card=card,
-                    user=user,
-                    users=self.bot.users,
-                    custom_name=card.get_best_name()
-                ),
-                content_type="html",
-                headers={
-                    "Last-Modified": self.bot.last_modified.strftime(
-                        "%a, %d %b %Y %H:%M:%S GMT"
-                    )
-                }
-            )
-        else:
-            return web.Response(status=304)
-
 # ------------------------------OTHER-----------------------------------------
 
     @server.add_route(path="/changelog/", method="GET", cog="MomoServer")
@@ -284,6 +289,26 @@ class MomoServer(Cog):
             self.bot.pack_data()
             return web.Response(
                 body=env.get_template("changelog.html").render(),
+                content_type="html",
+                headers={
+                    "Last-Modified": self.bot.last_modified.strftime(
+                        "%a, %d %b %Y %H:%M:%S GMT"
+                    )
+                }
+            )
+        else:
+            return web.Response(status=304)
+
+    @server.add_route(path="/configuration/", method="GET", cog="MomoServer")
+    async def config(self, request) -> web.Response:
+        """Page for config"""
+        # Only show content if there was any modifications since
+        if was_modified(self, request):
+            self.bot.pack_data()
+            return web.Response(
+                body=env.get_template("config.html").render(
+                    odds=self.bot.get_odds()
+                ),
                 content_type="html",
                 headers={
                     "Last-Modified": self.bot.last_modified.strftime(

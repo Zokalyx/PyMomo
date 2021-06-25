@@ -2,10 +2,12 @@
 
 :root
 {
+    color-scheme: dark;
+
     --fade-in-time: 800ms;
     --fade-up-length: 10vh;
 
-    --text-color: hsl(0, 0%, 70%);
+    --text-color: hsl(0, 0%, 80%);
     --header-color: hsl(0, 0%, 30%); 
     --base-color: hsl(0, 0%, 20%);
     --base-highlight: hsl(0, 0%, 25%);
@@ -23,11 +25,11 @@
     --l-color: hsla(var(--l-hue), 35%, 23%, 1);
     --m-color: hsla(var(--m-hue), 40%, 24%, 1);
 
-    --c-highlight: hsla(var(--c-hue), 40%, 25%, 1);
-    --r-highlight: hsla(var(--r-hue), 45%, 26%, 1);
-    --e-highlight: hsla(var(--e-hue), 50%, 27%, 1);
-    --l-highlight: hsla(var(--l-hue), 55%, 28%, 1);
-    --m-highlight: hsla(var(--m-hue), 60%, 29%, 1);
+    --c-highlight: hsla(var(--c-hue), 40%, 30%, 1);
+    --r-highlight: hsla(var(--r-hue), 45%, 31%, 1);
+    --e-highlight: hsla(var(--e-hue), 50%, 32%, 1);
+    --l-highlight: hsla(var(--l-hue), 55%, 33%, 1);
+    --m-highlight: hsla(var(--m-hue), 60%, 34%, 1);
 
     --c-light: hsla(var(--c-hue), 50%, 45%, 1);
     --r-light: hsla(var(--r-hue), 55%, 46%, 1);
@@ -59,9 +61,13 @@ header
 {
     background-color: var(--header-color);
 
+    z-index: 1;
+
     display: flex;
     justify-content: flex-start;
     align-items: center;
+
+    height: 100%;
 }
 
 header img
@@ -69,6 +75,29 @@ header img
     height: 8vh;
 
     border-radius: 2vh;
+}
+
+.bg-image {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 9vh;
+    z-index: 0;
+
+    /* The image used */
+    transform: scale(1.01); 
+  
+    /* Add the blur effect */
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+  
+    /* Full height */
+    height: 100%;
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 body
@@ -80,6 +109,8 @@ body
     
     display: flex;
     flex-direction: column;
+
+    height: 100%;
 }
 
 main
@@ -394,15 +425,37 @@ a
     stroke-width: 1;
 }
 
+.row
+{
+    display: flex;
+    flex-direction: row;
+}
+
+.align-center
+{
+    align-items: center;
+}
+
 
 /* ------------------------------------------------------------------------ */
 
 
 /* HOME SPECIFIC */
 
+.home-main
+{
+    margin: 13vh 25vh 0 25vh;
+}
+
+.home-box
+{
+    width: 35vh;
+    height: 25vh;
+}
+
 .home-box .box-image
 {
-    height: 19vh;
+    height: 14vh;
 }
 
 
@@ -452,8 +505,20 @@ a
     flex-direction: column;
 }
 
+.skill-icon
+{
+    height: 5vh;
+    margin: 1vh;
+}
+
 
 /* PROFILE SPECIFIC */
+
+.main-title.profile-title
+{
+    color: hsl(0, 0%, 90%);
+    text-shadow: 2px 2px hsla(0, 0%, 12%, 0.3);
+}
 
 .profile-box
 {
@@ -515,6 +580,11 @@ a
     width: 100%;
     display: flex;
     flex-direction: column;
+}
+
+.profile-card-header
+{
+    margin-bottom: 1vh;
 }
 
 .tooltip {
@@ -622,7 +692,7 @@ a
 
 .card-info-row
 {
-    width: 90%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -630,16 +700,41 @@ a
 
 .card-info-column
 {   
-    position: relative;
-    left: 8vh;
+    display: flex;
+    flex-direction: column;
+
     width: 50%;
     text-align: left;
 }
 
-.card-info-column ul li
+.card-info-element
 {
-    text-align: left;
+    margin: 0.5vh;
+
+    border-radius: 0.5vh;
 }
+
+.card-info-element.c
+{
+    background-color: var(--c-highlight);
+}
+.card-info-element.r
+{
+    background-color: var(--r-highlight);
+}
+.card-info-element.e
+{
+    background-color: var(--e-highlight);
+}
+.card-info-element.l
+{
+    background-color: var(--l-highlight);
+}
+.card-info-element.m
+{
+    background-color: var(--m-highlight);
+}
+
 
 .card-info-box
 {

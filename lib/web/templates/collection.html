@@ -10,7 +10,16 @@
         
         <link rel="shortcut icon" href="/images/momo.ico" type="image/x-icon">
 
+        <script src="/scripts/packs.js"></script>
+
         <link rel="stylesheet" href="/styles/base.css" type="text/css">
+
+        <style>
+            #order-form:hover
+            {
+                height: 12vh;
+            }
+        </style>
         
         <title>Colección de {{ user.default_name }}</title>
     </head>
@@ -32,19 +41,36 @@
                     </a>
                 </div>
                 <span class="main-title">Colección de {{ user.default_name }}</span>
-                <div class="title-side right"></div>
+                <div class="title-side right">
+                    <div class="filter-form" id="order-form">
+                        <span class="form-title">Orden</span>
+                        <label class="form-container" id="order-cards">
+                            <span class="checkbox-text">Nombre</span>
+                            <input type="radio" name="order" checked>
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="form-container" id="order-balance">
+                            <span class="checkbox-text">Cartas</span>
+                            <input type="radio" name="order">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
             </div>
 
             <div class="main">
-                <a href="all" class="box clickable-box">
-                    <span class="box-title">Toda la colección</span>
+                <a href="all" class="box clickable-box" id="allPacks">
+                    <span class="box-title" >Toda la colección</span>
                     <p class="box-text">
                         {{ all_cards_amount|length }} carta{{ all_cards_amount|length|pluralize }}
                     </p>
                 </a>
 
                 {% for pack in collection|sort %}
-                <a href="./{{ pack }}" class="box clickable-box">
+                <a href="./{{ pack }}" class="box clickable-box pack-box"
+                    data-name="{{ pack }}"
+                    data-cards="{{ collection[pack]|length }}"
+                >
                     <span class="box-title">
                         {{ pack }}
                     </span>
