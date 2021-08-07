@@ -1,5 +1,6 @@
 .env
 .db
+meta.txt
 data/db.json
 data/audio.mp3
 song.mp3

@@ -18,7 +18,7 @@ class MomoServer(Cog):
         self.bot = bot
         self.server = server.HTTPServer(
             bot=self.bot,
-            port=25565,
+            port=8000,
             host="0.0.0.0"
         )
         set_env(self.bot.db.on_cloud)

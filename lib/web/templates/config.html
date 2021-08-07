@@ -39,15 +39,25 @@
             </div>    
 
             <div class="main">
-                {% for rarity, odd in odds.items() %}
-                <span class="box-text">
-                    {{ {"c": "Comunes",
-                        "r": "Raras",
-                        "e": "Épicas",
-                        "l": "Legendarias",
-                        "m": "Míticas"}[rarity] }}: {{ (odd*100)|round()|int() }}%
-                </span>
-                {% endfor %}
+                <div class="box">
+                    <span class="box-title">
+                        Probabilidades
+                    </span>
+
+                    {% for rarity, odd in odds.items() %}
+                    <span class="box-text">
+                        {{ {"c": "Comunes",
+                            "r": "Raras",
+                            "e": "Épicas",
+                            "l": "Legendarias",
+                            "m": "Míticas"}[rarity] }}: {{ (odd*100)|round(2) }}%
+                    </span>
+                    {% endfor %}
+
+                    <span>
+                        <br>Nota: las probabilidades pueden ser afectadas<br>por la cantidad de cartas existentes de cada rareza
+                    </span>
+                </div>
             </div>
         </main>
     </body>
